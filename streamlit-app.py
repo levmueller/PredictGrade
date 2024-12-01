@@ -1,5 +1,13 @@
-# app.py
 import streamlit as st
+
+
+sidebar = st.sidebar.selectbox(
+    "Choose a page:",
+    ["Home", "Questionnaire", "GitHub API"]
+)
+
+
+
 
 # Title
 st.title("My First Streamlit App 2.0")
