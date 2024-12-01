@@ -4,8 +4,6 @@ import requests
 import pandas as pd
 from dotenv import load_dotenv
 import os
-import matplotlib.pyplot as plt
-import numpy as np
  
 # Lade die .env-Datei
 load_dotenv()
@@ -73,8 +71,32 @@ elif sidebar == "Questionnaire":
         if "Other" in spec_ex_activities:
             other_activity = st.text_input("Specify other activities:")
  
-    parental_support = st.select_slider("7. Rate the support from your parents:", ["No support", "Low", "Moderate", "High", "Very high"])
+    support = st.select_slider("7. Rate the support from your parents:", ["No support", "Low", "Moderate", "High", "Very high"])
     parental_degree = st.radio("8. What is the highest education level your parents completed?", ["No degree", "High School", "Bachelor's", "Master's", "PhD"])
+ 
+    # Neue Frage: Frühere GradeBoost-Nutzung
+    previous_activity = st.radio(
+        "9. Have you already used GradeBoost this semester? ❗️*Disclaimer: If yes, please provide information about the number of times you used GradeBoost this semester, as well as the calculated grade(s).*",
+        options=["Yes", "No"]
+    )
+   
+    grades = []
+    if previous_activity == "Yes":
+        num_previous_activity = st.selectbox(
+            "How many times did you calculate your estimated Grade using GradeBoost this semester?",
+            options=[1, 2, 3, 4, 5]
+        )
+ 
+        # Textfelder für die vorherigen berechneten Noten
+        for i in range(num_previous_activity):
+            grade = st.text_input(f'Enter grade {i + 1}:')
+            grades.append(grade)
+   
+    # Zeige die eingegebenen Noten an
+    if grades:
+        st.write('Entered grades:')
+        for i, grade in enumerate(grades):
+            st.write(f'Grade {i + 1}: {grade}')
  
     # Daten speichern
     if st.button("Submit"):
@@ -85,10 +107,20 @@ elif sidebar == "Questionnaire":
             'Absences': absences,
             'Performance': performance_as,
             'Extracurricular': ex_activities,
-            'Parental Support': parental_support,  # Update column name to 'Parental Support'
-            'Parental Degree': parental_degree
+            'Support': support,
+            'Parental Degree': parental_degree,
+            'Previous Activity': previous_activity,
+            'Previous Grades': grades
         })
         st.success("Thank you for your responses!")
+ 
+        # Zeige die neuesten Antworten als Tabelle an
+        if len(st.session_state.responses) > 0:
+            latest_response = st.session_state.responses[-1]
+            st.write("Here are your responses:")
+            st.write(pd.DataFrame([latest_response]))  # Konvertiere das Dictionary in ein DataFrame für eine übersichtliche Anzeige
+        else:
+            st.write("No responses yet.")
  
 # GitHub API-Seite
 elif sidebar == "GitHub API":
@@ -101,94 +133,3 @@ elif sidebar == "GitHub API":
     if dataset is not None:
         st.write("Here's the data fetched from GitHub:")
         st.dataframe(dataset)
- 
-# Umwandlung der Werte in numerische Form für das Radar-Diagramm
-def transform_data(df):
-    # Alter: 15-18 -> 0-1
-    df['Age'] = (df['Age'] - 15) / 3
-   
-    # Study Time: 0-25 -> 0-1
-    df['Study Time'] = df['Study Time'] / 25
-   
-    # Absences: Umwandlung in Zahlen (0-5 days -> 0, 6-10 days -> 1, etc.)
-    abs_map = {
-        '0-5 days': 0,
-        '6-10 days': 1,
-        '11-15 days': 2,
-        '16-20 days': 3,
-        '21-25 days': 4,
-        'more than 25 days': 5
-    }
-    df['Absences'] = df['Absences'].map(abs_map)
-   
-    # Parental Support: Mappe 'Parental Support' auf eine Skala von 0-1
-    support_map = {
-        'No support': 0,
-        'Low': 0.25,
-        'Moderate': 0.5,
-        'High': 0.75,
-        'Very high': 1
-    }
-    df['Parental Support'] = df['Parental Support'].map(support_map)
-   
-    # Parental Education: Umwandlung auf einer Skala von 0-1
-    education_map = {
-        "No degree": 0,
-        "High School": 0.2,
-        "Bachelor's": 0.4,
-        "Master's": 0.6,
-        "PhD": 1
-    }
-    df['Parental Degree'] = df['Parental Degree'].map(education_map)
-   
-    # Academic Performance: Mappe akademische Leistung auf eine Skala von 0-1
-    performance_map = {
-        "1.0": 1,
-        "2.0": 0.8,
-        "3.0": 0.6,
-        "4.0": 0.4,
-        "5.0": 0.2,
-        "6.0": 0
-    }
-    df['Performance'] = df['Performance'].map(performance_map)
-   
-    return df
- 
-# Erstellen des Netzdiagramms
-def radar_chart(data):
-    categories = ['Age', 'Parental Support', 'Parental Degree', 'Study Time', 'Absences', 'Performance']  # Use 'Parental Support'
-   
-    # Überprüfen, ob alle erforderlichen Spalten im DataFrame vorhanden sind
-    missing_cols = [col for col in categories if col not in data.columns]
-    if missing_cols:
-        st.error(f"Missing columns in data: {missing_cols}")
-        return
- 
-    values = data[categories].values.flatten().tolist()
- 
-    # Radar chart
-    num_vars = len(categories)
- 
-    # Winkel der Kategorien
-    angles = np.linspace(0, 2 * np.pi, num_vars, endpoint=False).tolist()
- 
-    # Wiederhole den ersten Wert, um den Kreis zu schließen
-    values += values[:1]
-    angles += angles[:1]
- 
-    fig, ax = plt.subplots(figsize=(6, 6), subplot_kw=dict(polar=True))
-    ax.fill(angles, values, color='red', alpha=0.25)
-    ax.plot(angles, values, color='red', linewidth=2)
- 
-    ax.set_yticklabels([])  # Keine Y-Achsen-Beschriftungen
-    ax.set_xticks(angles[:-1])  # Entfernen des letzten Werts (der wiederholt wird)
-    ax.set_xticklabels(categories)
- 
-    plt.title('Student Performance Radar Chart')
-    st.pyplot(fig)
-   
-# Füge das Radar-Diagramm für die neuesten Antworten hinzu
-if len(st.session_state.responses) > 0:
-    latest_response = st.session_state.responses[-1]
-    transformed_data = transform_data(pd.DataFrame([latest_response]))
-    radar_chart(transformed_data)
