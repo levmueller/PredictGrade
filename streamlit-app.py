@@ -147,7 +147,7 @@ fig.update_layout(
 fig.update_traces(
     fill='toself',  # Fill the area inside the radar chart
     fillcolor="rgba(180, 180, 180, 0.4)",  # User input fill color (light red)
-    line_color="lightgray",  # User input outline color
+    line_color="gray",  # User input outline color
     selector=dict(name="Your Inputs")
 )
 
