@@ -44,7 +44,6 @@ elif sidebar == "Questionnaire":
     parental_degree = st.radio("8. What is the highest education level your parents completed?", ["No degree", "High School", "Bachelor's", "Master's", "PhD"])
 
 
-
 import streamlit as st
 import plotly.express as px
 import pandas as pd
@@ -134,6 +133,13 @@ fig = px.line_polar(
 fig.update_layout(
     polar=dict(
         bgcolor="white",  # Background of the radar chart itself
+        radialaxis=dict(
+            visible=True,
+            range=[0, 1]  # Set the range of the radial axis to 0-1
+        ),
+        angularaxis=dict(
+            visible=True
+        )
     ),
 )
 
