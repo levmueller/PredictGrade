@@ -50,6 +50,9 @@ import pandas as pd
 
 
 
+import streamlit as st
+import plotly.express as px
+
 # Data
 categories = [
     "Age",
@@ -68,11 +71,31 @@ values += [values[0]]
 fig = px.line_polar(
     r=values,
     theta=categories,
-    line_close=True,
-    title="Netzdiagram of Student Factors",
-    template="plotly_dark"
+    line_close=True
 )
-fig.update_traces(fill='toself')  # Fill the area
+
+# Customize layout for gray and dark gray theme
+fig.update_layout(
+    title="Netzdiagram of Student Factors",
+    polar=dict(
+        bgcolor="gray",  # Background of the radar chart
+        angularaxis=dict(
+            tickfont=dict(color="darkgray"),  # Axis label color
+            linecolor="darkgray"  # Line color for the axis
+        ),
+        radialaxis=dict(
+            tickfont=dict(color="darkgray"),  # Radial tick font color
+            gridcolor="darkgray",  # Grid line color
+            linecolor="darkgray"  # Line color for the radial axis
+        )
+    ),
+    font=dict(color="darkgray"),  # General font color
+    plot_bgcolor="gray",  # Plot background
+    paper_bgcolor="gray",  # Entire chart background
+)
+
+# Fill the radar area with transparency
+fig.update_traces(fill='toself', line_color="white")  # Line color of the radar chart
 
 # Display in Streamlit
 st.title("Netzdiagram Example")
