@@ -44,14 +44,13 @@ elif sidebar == "Questionnaire":
     parental_degree = st.radio("8. What is the highest education level your parents completed?", ["No degree", "High School", "Bachelor's", "Master's", "PhD"])
 
 
-    import streamlit as st
+import streamlit as st
 import plotly.express as px
 import pandas as pd
 
 
 
-import streamlit as st
-import plotly.express as px
+
 
 # Data
 categories = [
@@ -74,28 +73,12 @@ fig = px.line_polar(
     line_close=True
 )
 
-# Customize layout for gray and dark gray theme
+# Customize only the radar chart background
 fig.update_layout(
-    title="Netzdiagram of Student Factors",
     polar=dict(
-        bgcolor="gray",  # Background of the radar chart
-        angularaxis=dict(
-            tickfont=dict(color="darkgray"),  # Axis label color
-            linecolor="darkgray"  # Line color for the axis
-        ),
-        radialaxis=dict(
-            tickfont=dict(color="darkgray"),  # Radial tick font color
-            gridcolor="darkgray",  # Grid line color
-            linecolor="darkgray"  # Line color for the radial axis
-        )
-    ),
-    font=dict(color="darkgray"),  # General font color
-    plot_bgcolor="gray",  # Plot background
-    paper_bgcolor="gray",  # Entire chart background
+        bgcolor="gray",  # Background of the radar chart itself
+    )
 )
-
-# Fill the radar area with transparency
-fig.update_traces(fill='toself', line_color="white")  # Line color of the radar chart
 
 # Display in Streamlit
 st.title("Netzdiagram Example")
