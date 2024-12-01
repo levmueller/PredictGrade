@@ -76,7 +76,7 @@ fig = px.line_polar(
 # Customize only the radar chart background
 fig.update_layout(
     polar=dict(
-        bgcolor="lightgray",  # Background of the radar chart itself
+        bgcolor="white",  # Background of the radar chart itself
     )
 )
 
