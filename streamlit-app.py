@@ -49,9 +49,6 @@ import plotly.express as px
 import pandas as pd
 
 
-
-
-
 # Data
 categories = [
     "Age",
@@ -73,13 +70,21 @@ fig = px.line_polar(
     line_close=True
 )
 
-# Customize only the radar chart background
+# Customize radar chart background and filled area
 fig.update_layout(
     polar=dict(
-        bgcolor="white",  # Background of the radar chart itself
-    )
+        bgcolor="gray",  # Background of the radar chart itself
+    ),
+)
+
+# Set the fill color of the enclosed area
+fig.update_traces(
+    fill='toself',  # Fills the area inside the radar chart
+    fillcolor="lightblue",  # Light blue fill for the area
+    line_color="white"  # White outline of the radar chart
 )
 
 # Display in Streamlit
 st.title("Netzdiagram Example")
 st.plotly_chart(fig, use_container_width=True)
+
