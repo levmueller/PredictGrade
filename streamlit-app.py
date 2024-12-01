@@ -146,7 +146,7 @@ fig.update_layout(
 # Set the fill color for the user input and average areas
 fig.update_traces(
     fill='toself',  # Fill the area inside the radar chart
-    fillcolor="rgba(210, 210, 210, 0.4)",  # User input fill color (light red)
+    fillcolor="rgba(180, 180, 180, 0.4)",  # User input fill color (light red)
     line_color="lightgray",  # User input outline color
     selector=dict(name="Your Inputs")
 )
