@@ -146,15 +146,15 @@ fig.update_layout(
 # Set the fill color for the user input and average areas
 fig.update_traces(
     fill='toself',  # Fill the area inside the radar chart
-    fillcolor="rgba(180, 180, 180, 0.4)",  # User input fill color (light red)
-    line_color="gray",  # User input outline color
+    fillcolor="rgba(225, 130, 180, 0.3)",  # Average fill color (light blue)
+    line_color="red",  # Average outline color
     selector=dict(name="Your Inputs")
 )
 
 fig.update_traces(
     fill='toself',  # Fill the average area with a transparent color
-    fillcolor="rgba(225, 130, 180, 0.3)",  # Average fill color (light blue)
-    line_color="red",  # Average outline color
+    fillcolor="rgba(180, 180, 180, 0.4)",  # User input fill color (light red)
+    line_color="gray",  # User input outline color
     selector=dict(name="Average")
 )
 
