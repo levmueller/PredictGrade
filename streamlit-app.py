@@ -73,15 +73,15 @@ fig = px.line_polar(
 # Customize radar chart background and filled area
 fig.update_layout(
     polar=dict(
-        bgcolor="gray",  # Background of the radar chart itself
+        bgcolor="white",  # Background of the radar chart itself
     ),
 )
 
 # Set the fill color of the enclosed area
 fig.update_traces(
     fill='toself',  # Fills the area inside the radar chart
-    fillcolor="lightblue",  # Light blue fill for the area
-    line_color="white"  # White outline of the radar chart
+    fillcolor="lightred",  # Light blue fill for the area
+    line_color="red"  # White outline of the radar chart
 )
 
 # Display in Streamlit
