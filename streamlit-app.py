@@ -80,7 +80,7 @@ fig.update_layout(
 # Set the fill color of the enclosed area
 fig.update_traces(
     fill='toself',  # Fills the area inside the radar chart
-    fillcolor="lightred",  # Light blue fill for the area
+    fillcolor="lightcoral",  # Light blue fill for the area
     line_color="red"  # White outline of the radar chart
 )
 
