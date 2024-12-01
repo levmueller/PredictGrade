@@ -51,36 +51,21 @@ import pandas as pd
 
 # Data
 categories = [
-    "Age",                    # Continuous scale
-    "Parental Education",     # Continuous scale
-    "Study Time Weekly",      # Continuous scale
-    "Absences",               # Continuous scale
-    "Parental Support",       # Continuous scale
-    "Participated in Activity" # Categorical (Yes/No)
+    "Age",
+    "Parental Education",
+    "Study Time Weekly",
+    "Absences",
+    "Parental Support"
 ]
-values = [16.46864548, 1.746237458, 9.771991919, 14.54138796, 2.122073579, "Yes"]
-
-# Normalize continuous values to 0-1 range (min-max normalization)
-def normalize(value, min_val, max_val):
-    return (value - min_val) / (max_val - min_val)
-
-# Normalize continuous variables to 0-1
-normalized_values = [
-    normalize(values[0], 15, 18),  # Age range 15-18
-    normalize(values[1], 0, 5),     # Parental Education range (example: 0-5 scale)
-    normalize(values[2], 0, 25),    # Study Time Weekly range 0-25 hours
-    normalize(values[3], 0, 25),    # Absences range 0-25 days
-    normalize(values[4], 0, 5),     # Parental Support range (example: 0-5 scale)
-    1 if values[5] == "Yes" else 0  # Categorical (Yes=1, No=0)
-]
+values = [16.46864548, 1.746237458, 9.771991919, 14.54138796, 2.122073579]
 
 # Duplicate the first value to close the radar chart
 categories += [categories[0]]
-normalized_values += [normalized_values[0]]
+values += [values[0]]
 
 # Plot radar chart
 fig = px.line_polar(
-    r=normalized_values,
+    r=values,
     theta=categories,
     line_close=True
 )
@@ -92,15 +77,14 @@ fig.update_layout(
     ),
 )
 
-# Set the fill color of the enclosed area (transparent light red)
+# Set the fill color of the enclosed area
 fig.update_traces(
     fill='toself',  # Fills the area inside the radar chart
-    fillcolor="rgba(255, 99, 71, 0.4)",  # Transparent light red
-    line_color="red"  # Red outline of the radar chart
+    fillcolor="rgba(255, 99, 71, 0.4)",
+    line_color="red"  # White outline of the radar chart
 )
 
 # Display in Streamlit
-st.title("Netzdiagram Example with Different Scales")
+st.title("Netzdiagram Example")
 st.plotly_chart(fig, use_container_width=True)
-
 
