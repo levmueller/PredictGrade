@@ -43,7 +43,6 @@ elif sidebar == "Questionnaire":
     support = st.select_slider("7. Rate the support from your parents:", ["No support", "Low", "Moderate", "High", "Very high"])
     parental_degree = st.radio("8. What is the highest education level your parents completed?", ["No degree", "High School", "Bachelor's", "Master's", "PhD"])
 
-
 import streamlit as st
 import plotly.express as px
 import pandas as pd
@@ -118,7 +117,7 @@ df_average = pd.DataFrame({
 })
 
 # Combine both DataFrames
-df_combined = pd.concat([df_user, df_average])
+df_combined = pd.concat([df_average, df_user])  # Notice the order: average is first
 
 # Plot radar chart using Plotly
 fig = px.line_polar(
@@ -146,16 +145,16 @@ fig.update_layout(
 # Set the fill color for the user input and average areas
 fig.update_traces(
     fill='toself',  # Fill the area inside the radar chart
-    fillcolor="rgba(225, 130, 180, 0.3)",  # Average fill color (light blue)
-    line_color="red",  # Average outline color
-    selector=dict(name="Your Inputs")
+    fillcolor="rgba(180, 180, 180, 0.4)",  # Average fill color (light gray)
+    line_color="gray",  # Average outline color
+    selector=dict(name="Average")
 )
 
 fig.update_traces(
     fill='toself',  # Fill the average area with a transparent color
-    fillcolor="rgba(180, 180, 180, 0.4)",  # User input fill color (light red)
-    line_color="gray",  # User input outline color
-    selector=dict(name="Average")
+    fillcolor="rgba(225, 130, 180, 0.4)",  # User input fill color (light pink)
+    line_color="red",  # User input outline color
+    selector=dict(name="Your Inputs")
 )
 
 # Display in Streamlit
