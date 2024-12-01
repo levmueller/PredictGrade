@@ -48,6 +48,9 @@ import streamlit as st
 import plotly.express as px
 import pandas as pd
 
+import streamlit as st
+import plotly.express as px
+import pandas as pd
 
 # Define average values (as in your provided example)
 categories = [
@@ -62,6 +65,13 @@ average_values = [16.46864548, 1.746237458, 9.771991919, 14.54138796, 2.12207357
 # Streamlit inputs for user data
 st.title("Netzdiagram: Compare Your Inputs to the Average")
 
+# Create Streamlit input fields for user data
+age = st.slider("Age", 15, 18, 16)
+parental_degree = st.slider("Parental Education", 0, 5, 2)
+average_time = st.slider("Study Time Weekly (hours)", 0, 25, 10)
+absences = st.slider("Absences (days)", 0, 25, 5)
+support = st.slider("Parental Support", 0, 5, 3)
+
 # Create a list of the user's values
 user_values = [age, parental_degree, average_time, absences, support]
 
@@ -70,41 +80,51 @@ categories += [categories[0]]
 user_values += [user_values[0]]
 average_values += [average_values[0]]
 
-# Create the radar chart using Plotly
+# Create a DataFrame for both user inputs and average values
+df_user = pd.DataFrame({
+    'Category': categories,
+    'Value': user_values,
+    'Type': ['Your Inputs'] * len(categories)
+})
+
+df_average = pd.DataFrame({
+    'Category': categories,
+    'Value': average_values,
+    'Type': ['Average'] * len(categories)
+})
+
+# Combine both DataFrames
+df_combined = pd.concat([df_user, df_average])
+
+# Plot radar chart using Plotly
 fig = px.line_polar(
-    r=[*user_values, *average_values], 
-    theta=categories,
+    df_combined, 
+    r='Value', 
+    theta='Category', 
+    color='Type', 
     line_close=True
 )
 
-# Customize the radar chart
+# Customize the radar chart appearance
 fig.update_layout(
     polar=dict(
         bgcolor="white",  # Background of the radar chart itself
     ),
 )
 
-# Set the fill color of the enclosed areas for both user input and average values
+# Set the fill color for the user input and average areas
 fig.update_traces(
-    fill='toself',  # Fills the area inside the radar chart
+    fill='toself',  # Fill the area inside the radar chart
     fillcolor="rgba(255, 99, 71, 0.4)",  # User input fill color (light red)
     line_color="red",  # User input outline color
-    name="Your Inputs"
+    selector=dict(name="Your Inputs")
 )
 
-# Add the average values as a separate trace
-fig.add_trace(
-    px.line_polar(
-        r=average_values,
-        theta=categories,
-        line_close=True
-    ).data[0]
-)
 fig.update_traces(
     fill='toself',  # Fill the average area with a transparent color
     fillcolor="rgba(70, 130, 180, 0.3)",  # Average fill color (light blue)
     line_color="blue",  # Average outline color
-    name="Average"
+    selector=dict(name="Average")
 )
 
 # Display in Streamlit
