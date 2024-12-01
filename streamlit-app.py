@@ -44,13 +44,11 @@ elif sidebar == "Questionnaire":
     parental_degree = st.radio("8. What is the highest education level your parents completed?", ["No degree", "High School", "Bachelor's", "Master's", "PhD"])
 
 
-import streamlit as st
-import plotly.express as px
-import pandas as pd
 
 import streamlit as st
 import plotly.express as px
 import pandas as pd
+import numpy as np
 
 # Define average values (as in your provided example)
 categories = [
@@ -60,6 +58,25 @@ categories = [
     "Absences", 
     "Parental Support"
 ]
+
+# Define min and max values for each category (these should ideally come from the data or domain knowledge)
+min_values = {
+    "Age": 15, 
+    "Parental Education": 0, 
+    "Study Time Weekly": 0, 
+    "Absences": 0, 
+    "Parental Support": 0
+}
+
+max_values = {
+    "Age": 18, 
+    "Parental Education": 5, 
+    "Study Time Weekly": 25, 
+    "Absences": 25, 
+    "Parental Support": 5
+}
+
+# Average values (you can adjust these based on your needs)
 average_values = [16.46864548, 1.746237458, 9.771991919, 14.54138796, 2.122073579]
 
 # Streamlit inputs for user data
@@ -75,21 +92,29 @@ support = st.slider("Parental Support", 0, 5, 3)
 # Create a list of the user's values
 user_values = [age, parental_degree, average_time, absences, support]
 
+# Normalize the user values and the average values
+def normalize(value, category):
+    return (value - min_values[category]) / (max_values[category] - min_values[category])
+
+# Apply normalization for both user values and average values
+normalized_user_values = [normalize(value, category) for value, category in zip(user_values, categories)]
+normalized_average_values = [normalize(value, category) for value, category in zip(average_values, categories)]
+
 # Duplicate the first value to close the radar chart
 categories += [categories[0]]
-user_values += [user_values[0]]
-average_values += [average_values[0]]
+normalized_user_values += [normalized_user_values[0]]
+normalized_average_values += [normalized_average_values[0]]
 
 # Create a DataFrame for both user inputs and average values
 df_user = pd.DataFrame({
     'Category': categories,
-    'Value': user_values,
+    'Value': normalized_user_values,
     'Type': ['Your Inputs'] * len(categories)
 })
 
 df_average = pd.DataFrame({
     'Category': categories,
-    'Value': average_values,
+    'Value': normalized_average_values,
     'Type': ['Average'] * len(categories)
 })
 
