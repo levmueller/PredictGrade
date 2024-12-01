@@ -49,42 +49,63 @@ import plotly.express as px
 import pandas as pd
 
 
-# Data
+# Define average values (as in your provided example)
 categories = [
-    "Age",
-    "Parental Education",
-    "Study Time Weekly",
-    "Absences",
+    "Age", 
+    "Parental Education", 
+    "Study Time Weekly", 
+    "Absences", 
     "Parental Support"
 ]
-values = [16.46864548, 1.746237458, 9.771991919, 14.54138796, 2.122073579]
+average_values = [16.46864548, 1.746237458, 9.771991919, 14.54138796, 2.122073579]
+
+# Streamlit inputs for user data
+st.title("Netzdiagram: Compare Your Inputs to the Average")
+
+# Create a list of the user's values
+user_values = [age, parental_degree, average_time, absences, support]
 
 # Duplicate the first value to close the radar chart
 categories += [categories[0]]
-values += [values[0]]
+user_values += [user_values[0]]
+average_values += [average_values[0]]
 
-# Plot radar chart
+# Create the radar chart using Plotly
 fig = px.line_polar(
-    r=values,
+    r=[*user_values, *average_values], 
     theta=categories,
     line_close=True
 )
 
-# Customize radar chart background and filled area
+# Customize the radar chart
 fig.update_layout(
     polar=dict(
         bgcolor="white",  # Background of the radar chart itself
     ),
 )
 
-# Set the fill color of the enclosed area
+# Set the fill color of the enclosed areas for both user input and average values
 fig.update_traces(
     fill='toself',  # Fills the area inside the radar chart
-    fillcolor="rgba(255, 99, 71, 0.4)",
-    line_color="red"  # White outline of the radar chart
+    fillcolor="rgba(255, 99, 71, 0.4)",  # User input fill color (light red)
+    line_color="red",  # User input outline color
+    name="Your Inputs"
+)
+
+# Add the average values as a separate trace
+fig.add_trace(
+    px.line_polar(
+        r=average_values,
+        theta=categories,
+        line_close=True
+    ).data[0]
+)
+fig.update_traces(
+    fill='toself',  # Fill the average area with a transparent color
+    fillcolor="rgba(70, 130, 180, 0.3)",  # Average fill color (light blue)
+    line_color="blue",  # Average outline color
+    name="Average"
 )
 
 # Display in Streamlit
-st.title("Netzdiagram Example")
 st.plotly_chart(fig, use_container_width=True)
-
