@@ -42,3 +42,38 @@ elif sidebar == "Questionnaire":
  
     support = st.select_slider("7. Rate the support from your parents:", ["No support", "Low", "Moderate", "High", "Very high"])
     parental_degree = st.radio("8. What is the highest education level your parents completed?", ["No degree", "High School", "Bachelor's", "Master's", "PhD"])
+
+
+    import streamlit as st
+import plotly.express as px
+import pandas as pd
+
+
+
+# Data
+categories = [
+    "Age",
+    "Parental Education",
+    "Study Time Weekly",
+    "Absences",
+    "Parental Support"
+]
+values = [16.46864548, 1.746237458, 9.771991919, 14.54138796, 2.122073579]
+
+# Duplicate the first value to close the radar chart
+categories += [categories[0]]
+values += [values[0]]
+
+# Plot radar chart
+fig = px.line_polar(
+    r=values,
+    theta=categories,
+    line_close=True,
+    title="Netzdiagram of Student Factors",
+    template="plotly_dark"
+)
+fig.update_traces(fill='toself')  # Fill the area
+
+# Display in Streamlit
+st.title("Netzdiagram Example")
+st.plotly_chart(fig, use_container_width=True)
