@@ -4,33 +4,7 @@ import requests
 import pandas as pd
 from dotenv import load_dotenv
 import os
- 
-# Lade die .env-Datei
-load_dotenv()
- 
-# Greife auf das GitHub-Token zu
-GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
- 
-# GitHub Repository Details
-REPO_OWNER = "392000"
-REPO_NAME = "student_performance"
-FILE_PATH = "Student_performance_data%20_.csv"  # Achte darauf, dass das Leerzeichen als %20 eingefügt wird
- 
-# Funktion: Lade Datei von GitHub API herunter
-def fetch_github_file():
-    url = f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/contents/{FILE_PATH}"
-    headers = {"Authorization": f"token {GITHUB_TOKEN}"}
-    response = requests.get(url, headers=headers)
- 
-    if response.status_code == 200:
-        data = response.json()
-        file_content = base64.b64decode(data['content'])
-        with open("sample-dataset.csv", "wb") as file:
-            file.write(file_content)
-        return pd.read_csv("sample-dataset.csv")
-    else:
-        st.error(f"Error fetching file: {response.status_code}")
-        return None
+
  
 # Sidebar für Navigation
 sidebar = st.sidebar.selectbox(
@@ -121,15 +95,3 @@ elif sidebar == "Questionnaire":
             st.write(pd.DataFrame([latest_response]))  # Konvertiere das Dictionary in ein DataFrame für eine übersichtliche Anzeige
         else:
             st.write("No responses yet.")
- 
-# GitHub API-Seite
-elif sidebar == "GitHub API":
-    st.title("GitHub API Integration")
-    st.write("Fetching the student performance data from GitHub...")
- 
-    # Daten abrufen
-    dataset = fetch_github_file()
- 
-    if dataset is not None:
-        st.write("Here's the data fetched from GitHub:")
-        st.dataframe(dataset)
