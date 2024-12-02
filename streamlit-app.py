@@ -96,6 +96,9 @@ if sidebar == "Questionnaire":
     degree_mapping_parental = {"No degree": 0, "High School": 1, "Bachelor's": 2, "Master's": 3, "PhD": 4}
     parental_degree_numeric = degree_mapping_parental[parental_degree]
 
+st.markdown("---")
+
+
 # Visualization Section
 st.title("Compare Your Inputs to the Average")
 
