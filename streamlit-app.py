@@ -98,7 +98,6 @@ st.title("Netzdiagram: Compare Your Inputs to the Average")
 
 # Create Streamlit input fields for user data
 parental_degree = st.slider("Parental Education", 0, 5, 2)
-average_time = st.slider("Study Time Weekly (hours)", 0, 25, 10)
 absences = st.slider("Absences (days)", 0, 25, 5)
 support = st.slider("Parental Support", 0, 5, 3)
 
