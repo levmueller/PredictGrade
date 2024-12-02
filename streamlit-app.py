@@ -57,8 +57,7 @@ elif sidebar == "Questionnaire":
 
     performance = st.select_slider("5. What is your current GPA:", 1, 6, 5)
 
-
-
+    
 
     ex_activities = st.radio("6. Do you participate in extracurricular activities?", ["Yes", "No"])
  
