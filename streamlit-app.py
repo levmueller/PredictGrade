@@ -86,13 +86,12 @@ if sidebar == "Questionnaire":
         extracurricular = 1
 
     # Support
-    st.header("Parental Support")
+    st.header("Parental Support & Education")
     support = st.select_slider("7. Rate the support from your parents:", ["No support", "Low", "Moderate", "High", "Very high"])
     degree_mapping_support = {"No support": 0, "Low": 1, "Moderate": 2, "High": 3, "Very high": 4}
     support_numeric = degree_mapping_support[support]
 
     # Parental Degree
-    st.header("Parental Education")
     parental_degree = st.radio("8. What is the highest education level your parents completed?", ["No degree", "High School", "Bachelor's", "Master's", "PhD"])
     degree_mapping_parental = {"No degree": 0, "High School": 1, "Bachelor's": 2, "Master's": 3, "PhD": 4}
     parental_degree_numeric = degree_mapping_parental[parental_degree]
