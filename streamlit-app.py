@@ -57,13 +57,6 @@ elif sidebar == "Questionnaire":
     # GPA
     performance = st.slider("5. What is your current GPA:", min_value=1.0, max_value=6.0, step=0.05)
 
-
-    ex_activities = st.radio("6. Do you participate in extracurricular activities?", ["Yes", "No"])
-
-
-    # Ask if the user participates in extracurricular activities
-    ex_activities = st.radio("Do you participate in extracurricular activities?", ["Yes", "No"])
-
     # Initialize variables for each activity as 0 (default)
     sports = 0
     music = 0
