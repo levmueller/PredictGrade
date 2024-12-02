@@ -96,7 +96,7 @@ min_values = {
 
 max_values = {
     "Age": 18, 
-    "Parental Education": 5, 
+    "Parental Education": 4, 
     "Study Time Weekly": 25, 
     "Absences": 25, 
     "Parental Support": 5
