@@ -174,13 +174,13 @@ max_values = {
 }
 
 # Change averages
-average_values = [16.46864548, 1.746237458, 9.771991919, 14.54138796, 2.122073579, 0.5, 4]
+average_values = [16.46864548, 1.746237458, 9.771991919, 14.54138796, 2.122073579, 0.5, 4, 0.5, 0.5, 0.5, 0.5]
 
 # Streamlit inputs for user data
 st.title("Netzdiagram: Compare Your Inputs to the Average")
 
 # Create a list of the user's values
-user_values = [age, parental_degree_numeric, average_time, absences, support_numeric, tutoring_numeric, performance]
+user_values = [age, parental_degree_numeric, average_time, absences, support_numeric, tutoring_numeric, performance, sports, music, volunteering, extracurricular]
 
 # Normalize the user values and the average values
 def normalize(value, category):
