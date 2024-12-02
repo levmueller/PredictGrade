@@ -28,10 +28,15 @@ elif sidebar == "Questionnaire":
  
     # Fragebogen mit verschiedenen Eingaben
     age = st.slider("1. How old are you?", 15, 18, 16)
+
     average_time = st.slider("2. How many hours per week do you study on average?", 0, 25, 12)
+
     tutoring = st.radio("3. Have you received tutoring?", ["Yes", "No"])
+
     absences = st.radio("4. How many days were you absent?", ["0-5 days", "6-10 days", "11-15 days", "16-20 days", "21-25 days", "more than 25 days"])
+
     performance_as = st.select_slider("5. Rate your academic performance:", ["1.0", "2.0", "3.0", "4.0", "5.0", "6.0"])
+    
     ex_activities = st.radio("6. Do you participate in extracurricular activities?", ["Yes", "No"])
  
     # Zusätzliche Auswahl bei extracurricular activities
@@ -42,6 +47,15 @@ elif sidebar == "Questionnaire":
  
     support = st.select_slider("7. Rate the support from your parents:", ["No support", "Low", "Moderate", "High", "Very high"])
     parental_degree = st.radio("8. What is the highest education level your parents completed?", ["No degree", "High School", "Bachelor's", "Master's", "PhD"])
+
+
+
+
+
+
+
+
+
 
 import streamlit as st
 import plotly.express as px
@@ -81,7 +95,6 @@ average_values = [16.46864548, 1.746237458, 9.771991919, 14.54138796, 2.12207357
 st.title("Netzdiagram: Compare Your Inputs to the Average")
 
 # Create Streamlit input fields for user data
-age = st.slider("Age", 15, 18, 16)
 parental_degree = st.slider("Parental Education", 0, 5, 2)
 average_time = st.slider("Study Time Weekly (hours)", 0, 25, 10)
 absences = st.slider("Absences (days)", 0, 25, 5)
