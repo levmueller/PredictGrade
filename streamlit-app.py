@@ -21,43 +21,40 @@ if sidebar == "Home":
     """)
 
 
-# Fragebogen-Seite
-elif sidebar == "Questionnaire":
-    st.title("Questionnaire")
-    st.write("Answer the following questions:")
+import streamlit as st
+import plotly.express as px
+import pandas as pd
+import numpy as np
 
-    # Fragebogen mit verschiedenen Eingaben
+# Question and User Inputs Section
+if sidebar == "Questionnaire":
+    st.title("Questionnaire")
+    st.write("Please answer the following questions:")
 
     # Gender
+    st.header("Personal Information")
     gender = st.radio("2. What is your gender?", ["Male", "Female"])
-    gender_mapping = {
-        "Male": 0,
-        "Female": 1,
-    }
-    # Convert the selected degree to its numerical representation
+    gender_mapping = {"Male": 0, "Female": 1}
     gender_numeric = gender_mapping[gender]
 
-
+    # Age
     age = st.slider("1. How old are you?", 15, 18, 16)
 
+    # Study Time and Absences
+    st.header("Academic Information")
     average_time = st.slider("2. How many hours per week do you study on average?", 0, 25, 12)
-
     absences = st.slider("2. How many days were you absent?", 0, 30, 5)
-
 
     # Tutoring
     tutoring = st.radio("3. Have you received tutoring?", ["Yes", "No"])
-    tutoring_mapping = {
-        "Yes": 1,
-        "No": 0,
-    }
-    # Convert the selected degree to its numerical representation
+    tutoring_mapping = {"Yes": 1, "No": 0}
     tutoring_numeric = tutoring_mapping[tutoring]
 
     # GPA
     performance = st.slider("5. What is your current GPA:", min_value=1.0, max_value=6.0, step=0.05)
 
-    # Initialize variables for each activity as 0 (default)
+    # Extracurricular Activities
+    st.header("Extracurricular Activities")
     sports = 0
     music = 0
     volunteering = 0
@@ -67,7 +64,7 @@ elif sidebar == "Questionnaire":
         "Which activities do you participate in?",
         ["Sports", "Music", "Volunteering", "Extracurricular Activities"]
     )
-        
+
     # Set variables to 1 if the activity is selected
     if "Sports" in spec_ex_activities:
         sports = 1
@@ -78,48 +75,22 @@ elif sidebar == "Questionnaire":
     if "Extracurricular" in spec_ex_activities:
         extracurricular = 1
 
-
-    # Support 
+    # Support
+    st.header("Parental Support")
     support = st.select_slider("7. Rate the support from your parents:", ["No support", "Low", "Moderate", "High", "Very high"])
-
-    degree_mapping_support = {
-        "No support": 0,
-        "Low": 1,
-        "Moderate": 2,
-        "High": 3,
-        "Very high": 4
-    }
-
-    # Convert the selected degree to its numerical representation
+    degree_mapping_support = {"No support": 0, "Low": 1, "Moderate": 2, "High": 3, "Very high": 4}
     support_numeric = degree_mapping_support[support]
 
-    # Parental degree
+    # Parental Degree
+    st.header("Parental Education")
     parental_degree = st.radio("8. What is the highest education level your parents completed?", ["No degree", "High School", "Bachelor's", "Master's", "PhD"])
-
-    degree_mapping_parental = {
-        "No degree": 0,
-        "High School": 1,
-        "Bachelor's": 2,
-        "Master's": 3,
-        "PhD": 4
-    }
-
-    # Convert the selected degree to its numerical representation
+    degree_mapping_parental = {"No degree": 0, "High School": 1, "Bachelor's": 2, "Master's": 3, "PhD": 4}
     parental_degree_numeric = degree_mapping_parental[parental_degree]
 
+# Visualization Section
+st.title("Compare Your Inputs to the Average")
 
-
-
-
-
-
-
-import streamlit as st
-import plotly.express as px
-import pandas as pd
-import numpy as np
-
-# Define average values (as in your provided example)
+# Categories and Min/Max values
 categories = [
     "Age", 
     "Parental Education", 
@@ -134,7 +105,7 @@ categories = [
     "Extracurricular Activities"
 ]
 
-# Define min and max values for each category (these should ideally come from the data or domain knowledge)
+# Define min and max values for each category
 min_values = {
     "Age": 15, 
     "Parental Education": 0, 
@@ -163,29 +134,26 @@ max_values = {
     "Extracurricular Activities": 1
 }
 
-# Change averages
+# Average values for comparison (you can adjust these based on your data)
 average_values = [16.46864548, 1.746237458, 9.771991919, 14.54138796, 2.122073579, 0.5, 4, 0.5, 0.5, 0.5, 0.5]
 
-# Streamlit inputs for user data
-st.title("Compare Your Inputs to the Average")
-
-# Create a list of the user's values
+# User's values based on their inputs
 user_values = [age, parental_degree_numeric, average_time, absences, support_numeric, tutoring_numeric, performance, sports, music, volunteering, extracurricular]
 
 # Normalize the user values and the average values
 def normalize(value, category):
     return (value - min_values[category]) / (max_values[category] - min_values[category])
 
-# Apply normalization for both user values and average values
+# Apply normalization
 normalized_user_values = [normalize(value, category) for value, category in zip(user_values, categories)]
 normalized_average_values = [normalize(value, category) for value, category in zip(average_values, categories)]
 
-# Duplicate the first value to close the radar chart
+# Close the radar chart by adding the first category again
 categories += [categories[0]]
 normalized_user_values += [normalized_user_values[0]]
 normalized_average_values += [normalized_average_values[0]]
 
-# Create a DataFrame for both user inputs and average values
+# Create DataFrames for both user inputs and average values
 df_user = pd.DataFrame({
     'Category': categories,
     'Value': normalized_user_values,
@@ -199,7 +167,7 @@ df_average = pd.DataFrame({
 })
 
 # Combine both DataFrames
-df_combined = pd.concat([df_average, df_user])  # Notice the order: average is first
+df_combined = pd.concat([df_average, df_user])
 
 # Plot radar chart using Plotly
 fig = px.line_polar(
@@ -210,13 +178,13 @@ fig = px.line_polar(
     line_close=True
 )
 
-# Customize the radar chart appearance
+# Customize radar chart appearance
 fig.update_layout(
     polar=dict(
-        bgcolor="white",  # Background of the radar chart itself
+        bgcolor="white",  
         radialaxis=dict(
             visible=True,
-            range=[0, 1]  # Set the range of the radial axis to 0-1
+            range=[0, 1]
         ),
         angularaxis=dict(
             visible=True
@@ -224,20 +192,21 @@ fig.update_layout(
     ),
 )
 
-# Set the fill color for the user input and average areas
+# Set fill color for user input and average areas
 fig.update_traces(
-    fill='toself',  # Fill the area inside the radar chart
-    fillcolor="rgba(180, 180, 180, 0.4)",  # Average fill color (light gray)
-    line_color="gray",  # Average outline color
+    fill='toself',
+    fillcolor="rgba(180, 180, 180, 0.4)",  
+    line_color="gray",  
     selector=dict(name="Average")
 )
 
 fig.update_traces(
-    fill='toself',  # Fill the average area with a transparent color
-    fillcolor="rgba(225, 130, 180, 0.4)",  # User input fill color (light pink)
-    line_color="red",  # User input outline color
+    fill='toself',
+    fillcolor="rgba(225, 130, 180, 0.4)",  
+    line_color="red",  
     selector=dict(name="Your Inputs")
 )
 
-# Display in Streamlit
+# Display chart
 st.plotly_chart(fig, use_container_width=True)
+
