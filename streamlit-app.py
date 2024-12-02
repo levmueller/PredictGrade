@@ -25,13 +25,24 @@ if sidebar == "Home":
 elif sidebar == "Questionnaire":
     st.title("Questionnaire")
     st.write("Answer the following questions:")
- 
+
     # Fragebogen mit verschiedenen Eingaben
+
+    # Gender
     gender = st.radio("2. What is your gender?", ["Male", "Female"])
+    gender_mapping = {
+        "Male": 0,
+        "Female": 1,
+    }
+    # Convert the selected degree to its numerical representation
+    gender_numeric = gender_mapping[gender]
+
 
     age = st.slider("1. How old are you?", 15, 18, 16)
 
     average_time = st.slider("2. How many hours per week do you study on average?", 0, 25, 12)
+
+    absences = st.slider("2. How many days were you absent?", 0, 30, 5)
 
 
     # Tutoring
@@ -44,12 +55,11 @@ elif sidebar == "Questionnaire":
     tutoring_numeric = tutoring_mapping[tutoring]
 
 
-    absences = st.slider("2. How many days were you absent?", 0, 30, 5)
+    performance = st.select_slider("5. What is your current GPA:", 1, 6, 5)
 
 
 
-    performance_as = st.select_slider("5. Rate your academic performance:", ["1.0", "2.0", "3.0", "4.0", "5.0", "6.0"])
-    
+
     ex_activities = st.radio("6. Do you participate in extracurricular activities?", ["Yes", "No"])
  
     # Zusätzliche Auswahl bei extracurricular activities
