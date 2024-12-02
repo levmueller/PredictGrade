@@ -48,9 +48,21 @@ elif sidebar == "Questionnaire":
             other_activity = st.text_input("Specify other activities:")
  
     support = st.select_slider("7. Rate the support from your parents:", ["No support", "Low", "Moderate", "High", "Very high"])
+
+
+    # Parental degree
     parental_degree = st.radio("8. What is the highest education level your parents completed?", ["No degree", "High School", "Bachelor's", "Master's", "PhD"])
 
+    degree_mapping = {
+        "No degree": 0,
+        "High School": 1,
+        "Bachelor's": 2,
+        "Master's": 3,
+        "PhD": 4
+    }
 
+    # Convert the selected degree to its numerical representation
+    parental_degree_numeric = degree_mapping[parental_degree]
 
 
 
@@ -97,12 +109,11 @@ average_values = [16.46864548, 1.746237458, 9.771991919, 14.54138796, 2.12207357
 st.title("Netzdiagram: Compare Your Inputs to the Average")
 
 # Create Streamlit input fields for user data
-parental_degree = st.slider("Parental Education", 0, 5, 2)
 absences = st.slider("Absences (days)", 0, 25, 5)
 support = st.slider("Parental Support", 0, 5, 3)
 
 # Create a list of the user's values
-user_values = [age, parental_degree, average_time, absences, support]
+user_values = [age, parental_degree_numeric, average_time, absences, support]
 
 # Normalize the user values and the average values
 def normalize(value, category):
