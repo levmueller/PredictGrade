@@ -42,7 +42,7 @@ if sidebar == "Questionnaire":
     st.write("Please answer the following questions to calculate your expected grade.")
 
     # Gender
-    st.header("Personal Information")
+    st.subheader("Personal Information")
     gender = st.radio("2. What is your gender?", ["Male", "Female"])
     gender_mapping = {"Male": 0, "Female": 1}
     gender_numeric = gender_mapping[gender]
@@ -51,7 +51,7 @@ if sidebar == "Questionnaire":
     age = st.slider("1. How old are you?", 15, 18, 16)
 
     # Study Time and Absences
-    st.header("Academic Information")
+    st.subheader("Academic Information")
     average_time = st.slider("2. How many hours per week do you study on average?", 0, 25, 12)
     absences = st.slider("2. How many days were you absent?", 0, 30, 5)
 
@@ -64,7 +64,7 @@ if sidebar == "Questionnaire":
     performance = st.slider("5. What is your current GPA:", min_value=1.0, max_value=6.0, step=0.05)
 
     # Extracurricular Activities
-    st.header("Extracurricular Activities")
+    st.subheader("Extracurricular Activities")
     sports = 0
     music = 0
     volunteering = 0
