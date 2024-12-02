@@ -107,7 +107,7 @@ st.write("Below is a comparison of your inputs against the overall average.")
 categories = [
     "Age", 
     "Parental Education", 
-    "Study Time Weekly", 
+    "Weekly Study Time", 
     "Absences", 
     "Parental Support",
     "Tutoring",
@@ -122,7 +122,7 @@ categories = [
 min_values = {
     "Age": 15, 
     "Parental Education": 0, 
-    "Study Time Weekly": 0, 
+    "Weekly Study Time": 0, 
     "Absences": 0, 
     "Parental Support": 0,
     "Tutoring": 0,
@@ -136,7 +136,7 @@ min_values = {
 max_values = {
     "Age": 18, 
     "Parental Education": 4, 
-    "Study Time Weekly": 25, 
+    "Weekly Study Time": 25, 
     "Absences": 30, 
     "Parental Support": 4,
     "Tutoring": 1,
