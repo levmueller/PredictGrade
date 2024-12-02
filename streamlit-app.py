@@ -100,7 +100,8 @@ st.markdown("---")
 
 
 # Visualization Section
-st.title("Compare Your Inputs to the Average")
+st.title("Analysis of Results")
+st.write("This are your inputs compared to the overall average.")
 
 # Categories and Min/Max values
 categories = [
