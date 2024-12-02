@@ -64,8 +64,8 @@ elif sidebar == "Questionnaire":
     extracurricular = 0
 
     spec_ex_activities = st.multiselect(
-        "Which activities?",
-        ["Sports", "Music", "Volunteering", "Extracurricular"]
+        "Which activities do you participate in?",
+        ["Sports", "Music", "Volunteering", "Extracurricular Activities"]
     )
         
     # Set variables to 1 if the activity is selected
