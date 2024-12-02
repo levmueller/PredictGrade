@@ -57,8 +57,6 @@ elif sidebar == "Questionnaire":
 
     performance = st.slider("5. What is your current GPA:", min_value=1.0, max_value=6.0, step=0.05)
 
-
-
     ex_activities = st.radio("6. Do you participate in extracurricular activities?", ["Yes", "No"])
  
     # Zusätzliche Auswahl bei extracurricular activities
@@ -118,6 +116,7 @@ categories = [
     "Absences", 
     "Parental Support",
     "Tutoring",
+    "GPA",
 ]
 
 # Define min and max values for each category (these should ideally come from the data or domain knowledge)
@@ -127,7 +126,8 @@ min_values = {
     "Study Time Weekly": 0, 
     "Absences": 0, 
     "Parental Support": 0,
-    "Tutoring": 0
+    "Tutoring": 0,
+    "GPA": 1
 }
 
 max_values = {
@@ -136,17 +136,18 @@ max_values = {
     "Study Time Weekly": 25, 
     "Absences": 30, 
     "Parental Support": 4,
-    "Tutoring": 1
+    "Tutoring": 1,
+    "GPA": 6
 }
 
 # Change averages
-average_values = [16.46864548, 1.746237458, 9.771991919, 14.54138796, 2.122073579, 0.5]
+average_values = [16.46864548, 1.746237458, 9.771991919, 14.54138796, 2.122073579, 0.5, 4]
 
 # Streamlit inputs for user data
 st.title("Netzdiagram: Compare Your Inputs to the Average")
 
 # Create a list of the user's values
-user_values = [age, parental_degree_numeric, average_time, absences, support_numeric, tutoring_numeric]
+user_values = [age, parental_degree_numeric, average_time, absences, support_numeric, tutoring_numeric, performance]
 
 # Normalize the user values and the average values
 def normalize(value, category):
