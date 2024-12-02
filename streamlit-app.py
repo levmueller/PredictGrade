@@ -47,13 +47,25 @@ elif sidebar == "Questionnaire":
         if "Other" in spec_ex_activities:
             other_activity = st.text_input("Specify other activities:")
  
+
+
     support = st.select_slider("7. Rate the support from your parents:", ["No support", "Low", "Moderate", "High", "Very high"])
 
+    degree_mapping_support = {
+        "No support": 0,
+        "Low": 1,
+        "Moderate": 2,
+        "High": 3,
+        "Very high": 4
+    }
+
+    # Convert the selected degree to its numerical representation
+    support_numeric = degree_mapping_support[support]
 
     # Parental degree
     parental_degree = st.radio("8. What is the highest education level your parents completed?", ["No degree", "High School", "Bachelor's", "Master's", "PhD"])
 
-    degree_mapping = {
+    degree_mapping_parental = {
         "No degree": 0,
         "High School": 1,
         "Bachelor's": 2,
@@ -62,7 +74,7 @@ elif sidebar == "Questionnaire":
     }
 
     # Convert the selected degree to its numerical representation
-    parental_degree_numeric = degree_mapping[parental_degree]
+    parental_degree_numeric = degree_mapping_parental[parental_degree]
 
 
 
@@ -99,7 +111,7 @@ max_values = {
     "Parental Education": 4, 
     "Study Time Weekly": 25, 
     "Absences": 25, 
-    "Parental Support": 5
+    "Parental Support": 4
 }
 
 # Average values (you can adjust these based on your needs)
@@ -110,10 +122,9 @@ st.title("Netzdiagram: Compare Your Inputs to the Average")
 
 # Create Streamlit input fields for user data
 absences = st.slider("Absences (days)", 0, 25, 5)
-support = st.slider("Parental Support", 0, 5, 3)
 
 # Create a list of the user's values
-user_values = [age, parental_degree_numeric, average_time, absences, support]
+user_values = [age, parental_degree_numeric, average_time, absences, support_numeric]
 
 # Normalize the user values and the average values
 def normalize(value, category):
