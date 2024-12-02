@@ -55,7 +55,7 @@ elif sidebar == "Questionnaire":
     tutoring_numeric = tutoring_mapping[tutoring]
 
 
-    performance = st.slider("5. What is your current GPA:", 1, 6, 5)
+    performance = st.slider("5. What is your current GPA:", min_value=1, max_value=6, step=0.05)
 
     ex_activities = st.radio("6. Do you participate in extracurricular activities?", ["Yes", "No"])
  
