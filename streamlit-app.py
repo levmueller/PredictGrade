@@ -29,6 +29,8 @@ elif sidebar == "Questionnaire":
     # Fragebogen mit verschiedenen Eingaben
     age = st.slider("1. How old are you?", 15, 18, 16)
 
+    gender = st.radio("2. What is your gender?", ["Male", "Female"])
+
     average_time = st.slider("2. How many hours per week do you study on average?", 0, 25, 12)
 
     tutoring = st.radio("3. Have you received tutoring?", ["Yes", "No"])
