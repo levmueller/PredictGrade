@@ -27,13 +27,23 @@ elif sidebar == "Questionnaire":
     st.write("Answer the following questions:")
  
     # Fragebogen mit verschiedenen Eingaben
-    age = st.slider("1. How old are you?", 15, 18, 16)
-
     gender = st.radio("2. What is your gender?", ["Male", "Female"])
+
+    age = st.slider("1. How old are you?", 15, 18, 16)
 
     average_time = st.slider("2. How many hours per week do you study on average?", 0, 25, 12)
 
+
+    # Tutoring
     tutoring = st.radio("3. Have you received tutoring?", ["Yes", "No"])
+    tutoring_mapping = {
+        "Yes": 1,
+        "No": 0,
+    }
+    # Convert the selected degree to its numerical representation
+    tutoring_numeric = tutoring_mapping[tutoring]
+
+
 
     absences = st.radio("4. How many days were you absent?", ["0-5 days", "6-10 days", "11-15 days", "16-20 days", "21-25 days", "more than 25 days"])
 
@@ -49,6 +59,8 @@ elif sidebar == "Questionnaire":
  
 
 
+
+    # Support 
     support = st.select_slider("7. Rate the support from your parents:", ["No support", "Low", "Moderate", "High", "Very high"])
 
     degree_mapping_support = {
@@ -94,7 +106,8 @@ categories = [
     "Parental Education", 
     "Study Time Weekly", 
     "Absences", 
-    "Parental Support"
+    "Parental Support",
+    "Tutoring"
 ]
 
 # Define min and max values for each category (these should ideally come from the data or domain knowledge)
@@ -103,7 +116,8 @@ min_values = {
     "Parental Education": 0, 
     "Study Time Weekly": 0, 
     "Absences": 0, 
-    "Parental Support": 0
+    "Parental Support": 0,
+    "Tutoring": 0
 }
 
 max_values = {
@@ -111,11 +125,12 @@ max_values = {
     "Parental Education": 4, 
     "Study Time Weekly": 25, 
     "Absences": 25, 
-    "Parental Support": 4
+    "Parental Support": 4,
+    "Tutoring": 1
 }
 
-# Average values (you can adjust these based on your needs)
-average_values = [16.46864548, 1.746237458, 9.771991919, 14.54138796, 2.122073579]
+# Change averages
+average_values = [16.46864548, 1.746237458, 9.771991919, 14.54138796, 2.122073579, 0.5]
 
 # Streamlit inputs for user data
 st.title("Netzdiagram: Compare Your Inputs to the Average")
@@ -124,7 +139,7 @@ st.title("Netzdiagram: Compare Your Inputs to the Average")
 absences = st.slider("Absences (days)", 0, 25, 5)
 
 # Create a list of the user's values
-user_values = [age, parental_degree_numeric, average_time, absences, support_numeric]
+user_values = [age, parental_degree_numeric, average_time, absences, support_numeric, tutoring_numeric]
 
 # Normalize the user values and the average values
 def normalize(value, category):
