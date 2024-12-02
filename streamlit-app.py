@@ -39,7 +39,7 @@ import numpy as np
 # Question and User Inputs Section
 if sidebar == "Questionnaire":
     st.title("Questionnaire")
-    st.write("Please answer the following questions:")
+    st.write("Please answer the following questions to calculate your expected grade.")
 
     # Gender
     st.header("Personal Information")
