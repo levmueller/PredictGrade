@@ -147,9 +147,6 @@ average_values = [16.46864548, 1.746237458, 9.771991919, 14.54138796, 2.12207357
 # Streamlit inputs for user data
 st.title("Netzdiagram: Compare Your Inputs to the Average")
 
-# Create Streamlit input fields for user data
-absences = st.slider("Absences (days)", 0, 25, 5)
-
 # Create a list of the user's values
 user_values = [age, parental_degree_numeric, average_time, absences_numeric, support_numeric, tutoring_numeric]
 
