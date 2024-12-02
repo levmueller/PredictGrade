@@ -31,73 +31,67 @@ import plotly.express as px
 import pandas as pd
 import numpy as np
 
+import streamlit as st
+import plotly.express as px
+import pandas as pd
+import numpy as np
+
 # Question and User Inputs Section
 if sidebar == "Questionnaire":
     st.title("Questionnaire")
     st.write("Please answer the following questions:")
 
-    # Create columns for more structured layout
-    col1, col2 = st.columns(2)
+    # Gender
+    st.header("Personal Information")
+    gender = st.radio("2. What is your gender?", ["Male", "Female"])
+    gender_mapping = {"Male": 0, "Female": 1}
+    gender_numeric = gender_mapping[gender]
 
-    # Gender (placed in the first column)
-    with col1:
-        st.header("Personal Information")
-        gender = st.radio("2. What is your gender?", ["Male", "Female"])
-        gender_mapping = {"Male": 0, "Female": 1}
-        gender_numeric = gender_mapping[gender]
+    # Age
+    age = st.slider("1. How old are you?", 15, 18, 16)
 
-    # Age (placed in the second column)
-    with col2:
-        age = st.slider("1. How old are you?", 15, 18, 16)
+    # Study Time and Absences
+    st.header("Academic Information")
+    average_time = st.slider("2. How many hours per week do you study on average?", 0, 25, 12)
+    absences = st.slider("2. How many days were you absent?", 0, 30, 5)
 
-    # Study Time and Absences (side by side)
-    col3, col4 = st.columns(2)
-    with col3:
-        average_time = st.slider("2. How many hours per week do you study on average?", 0, 25, 12)
-    with col4:
-        absences = st.slider("2. How many days were you absent?", 0, 30, 5)
+    # Tutoring
+    tutoring = st.radio("3. Have you received tutoring?", ["Yes", "No"])
+    tutoring_mapping = {"Yes": 1, "No": 0}
+    tutoring_numeric = tutoring_mapping[tutoring]
 
-    # Tutoring (placed in the first column)
-    with col1:
-        tutoring = st.radio("3. Have you received tutoring?", ["Yes", "No"])
-        tutoring_mapping = {"Yes": 1, "No": 0}
-        tutoring_numeric = tutoring_mapping[tutoring]
+    # GPA
+    performance = st.slider("5. What is your current GPA:", min_value=1.0, max_value=6.0, step=0.05)
 
-    # GPA (placed in the second column)
-    with col2:
-        performance = st.slider("5. What is your current GPA:", min_value=1.0, max_value=6.0, step=0.05)
-
-    # Extracurricular Activities (multiselect with expanded section)
+    # Extracurricular Activities
     st.header("Extracurricular Activities")
-    col5, col6 = st.columns(2)
-    with col5:
-        sports = 0
-        music = 0
-        volunteering = 0
-        extracurricular = 0
+    sports = 0
+    music = 0
+    volunteering = 0
+    extracurricular = 0
 
-        spec_ex_activities = st.multiselect(
-            "Which activities do you participate in?",
-            ["Sports", "Music", "Volunteering", "Extracurricular Activities"]
-        )
-        
-        # Set variables to 1 if the activity is selected
-        if "Sports" in spec_ex_activities:
-            sports = 1
-        if "Music" in spec_ex_activities:
-            music = 1
-        if "Volunteering" in spec_ex_activities:
-            volunteering = 1
-        if "Extracurricular" in spec_ex_activities:
-            extracurricular = 1
+    spec_ex_activities = st.multiselect(
+        "Which activities do you participate in?",
+        ["Sports", "Music", "Volunteering", "Extracurricular Activities"]
+    )
 
-    # Support (select slider)
+    # Set variables to 1 if the activity is selected
+    if "Sports" in spec_ex_activities:
+        sports = 1
+    if "Music" in spec_ex_activities:
+        music = 1
+    if "Volunteering" in spec_ex_activities:
+        volunteering = 1
+    if "Extracurricular" in spec_ex_activities:
+        extracurricular = 1
+
+    # Support
     st.header("Parental Support")
     support = st.select_slider("7. Rate the support from your parents:", ["No support", "Low", "Moderate", "High", "Very high"])
     degree_mapping_support = {"No support": 0, "Low": 1, "Moderate": 2, "High": 3, "Very high": 4}
     support_numeric = degree_mapping_support[support]
 
-    # Parental Degree (radio)
+    # Parental Degree
     st.header("Parental Education")
     parental_degree = st.radio("8. What is the highest education level your parents completed?", ["No degree", "High School", "Bachelor's", "Master's", "PhD"])
     degree_mapping_parental = {"No degree": 0, "High School": 1, "Bachelor's": 2, "Master's": 3, "PhD": 4}
