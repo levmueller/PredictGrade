@@ -46,6 +46,18 @@ elif sidebar == "Questionnaire":
 
 
     absences = st.radio("4. How many days were you absent?", ["0-5 days", "6-10 days", "11-15 days", "16-20 days", "21-25 days", "more than 25 days"])
+    absences_mapping = {
+        "0-5 days": 0,
+        "6-10 days": 1, 
+        "11-15 days": 2,
+        "16-20 days": 3,
+        "21-25 days": 4,
+        "more than 25 days": 5
+    }
+    # Convert the selected degree to its numerical representation
+    absences_numeric = absences_mapping[absences]
+
+
 
     performance_as = st.select_slider("5. Rate your academic performance:", ["1.0", "2.0", "3.0", "4.0", "5.0", "6.0"])
     
@@ -107,7 +119,7 @@ categories = [
     "Study Time Weekly", 
     "Absences", 
     "Parental Support",
-    "Tutoring"
+    "Tutoring",
 ]
 
 # Define min and max values for each category (these should ideally come from the data or domain knowledge)
@@ -124,7 +136,7 @@ max_values = {
     "Age": 18, 
     "Parental Education": 4, 
     "Study Time Weekly": 25, 
-    "Absences": 25, 
+    "Absences": 5, 
     "Parental Support": 4,
     "Tutoring": 1
 }
@@ -139,7 +151,7 @@ st.title("Netzdiagram: Compare Your Inputs to the Average")
 absences = st.slider("Absences (days)", 0, 25, 5)
 
 # Create a list of the user's values
-user_values = [age, parental_degree_numeric, average_time, absences, support_numeric, tutoring_numeric]
+user_values = [age, parental_degree_numeric, average_time, absences_numeric, support_numeric, tutoring_numeric]
 
 # Normalize the user values and the average values
 def normalize(value, category):
