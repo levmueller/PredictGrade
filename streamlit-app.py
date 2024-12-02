@@ -138,6 +138,10 @@ categories = [
     "Parental Support",
     "Tutoring",
     "GPA",
+    "Sports",
+    "Music",
+    "Volunteering",
+    "Extracurricular Activities"
 ]
 
 # Define min and max values for each category (these should ideally come from the data or domain knowledge)
@@ -148,7 +152,11 @@ min_values = {
     "Absences": 0, 
     "Parental Support": 0,
     "Tutoring": 0,
-    "GPA": 1
+    "GPA": 1,
+    "Sports": 0,
+    "Music": 0,
+    "Volunteering": 0,
+    "Extracurricular Activities": 0
 }
 
 max_values = {
@@ -158,7 +166,11 @@ max_values = {
     "Absences": 30, 
     "Parental Support": 4,
     "Tutoring": 1,
-    "GPA": 6
+    "GPA": 6,
+    "Sports": 1,
+    "Music": 1,
+    "Volunteering": 1,
+    "Extracurricular Activities": 1
 }
 
 # Change averages
