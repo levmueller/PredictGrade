@@ -57,32 +57,26 @@ elif sidebar == "Questionnaire":
     # GPA
     performance = st.slider("5. What is your current GPA:", min_value=1.0, max_value=6.0, step=0.05)
 
-
-    ex_activities = st.radio("6. Do you participate in extracurricular activities?", ["Yes", "No"])
-
     # Initialize variables for each activity as 0 (default)
     sports = 0
     music = 0
     volunteering = 0
     extracurricular = 0
 
-    # If the user selects "Yes," show further options
-    if ex_activities == "Yes":
-        # Multiselect for specific activities
-        spec_ex_activities = st.multiselect(
-            "Which activities?",
-            ["Sports", "Music", "Volunteering", "Extracurricular"]
-        )
+    spec_ex_activities = st.multiselect(
+        "Which activities?",
+        ["Sports", "Music", "Volunteering", "Extracurricular"]
+    )
         
-        # Set variables to 1 if the activity is selected
-        if "Sports" in spec_ex_activities:
-            sports = 1
-        if "Music" in spec_ex_activities:
-            music = 1
-        if "Volunteering" in spec_ex_activities:
-            volunteering = 1
-        if "Extracurricular" in spec_ex_activities:
-            extracurricular = 1
+    # Set variables to 1 if the activity is selected
+    if "Sports" in spec_ex_activities:
+        sports = 1
+    if "Music" in spec_ex_activities:
+        music = 1
+    if "Volunteering" in spec_ex_activities:
+        volunteering = 1
+    if "Extracurricular" in spec_ex_activities:
+        extracurricular = 1
 
 
     # Support 
