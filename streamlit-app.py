@@ -79,6 +79,135 @@ if sidebar == "Questionnaire":
         support_numeric, extracurricular, sports, music, volunteering, performance
     ]
 
+
+    # Visualization Section
+    st.title("Analysis of Results")
+    st.write("Below is a comparison of your inputs against the overall average.")
+
+    # Categories and Min/Max values
+    categories = [
+        "Age", 
+        "Parental Education", 
+        "Weekly Study Time", 
+        "Absences", 
+        "Parental Support",
+        "Tutoring",
+        "GPA",
+        "Sports",
+        "Music",
+        "Volunteering",
+        "Extracurricular Activities"
+    ]
+
+    # Define min and max values for each category
+    min_values = {
+        "Age": 15, 
+        "Parental Education": 0, 
+        "Weekly Study Time": 0, 
+        "Absences": 0, 
+        "Parental Support": 0,
+        "Tutoring": 0,
+        "GPA": 1,
+        "Sports": 0,
+        "Music": 0,
+        "Volunteering": 0,
+        "Extracurricular Activities": 0
+    }
+
+    max_values = {
+        "Age": 18, 
+        "Parental Education": 4, 
+        "Weekly Study Time": 25, 
+        "Absences": 30, 
+        "Parental Support": 4,
+        "Tutoring": 1,
+        "GPA": 6,
+        "Sports": 1,
+        "Music": 1,
+        "Volunteering": 1,
+        "Extracurricular Activities": 1
+    }
+
+    # Average values for comparison (you can adjust these based on your data)
+    average_values = [16.46864548, 1.746237458, 9.771991919, 14.54138796, 2.122073579, 0.5, 4, 0.5, 0.5, 0.5, 0.5]
+
+    # User's values based on their inputs
+    user_values = [age, parental_degree_numeric, average_time, absences, support_numeric, tutoring_numeric, performance, sports, music, volunteering, extracurricular]
+
+    # Normalize the user values and the average values
+    def normalize(value, category):
+        return (value - min_values[category]) / (max_values[category] - min_values[category])
+
+    # Apply normalization
+    normalized_user_values = [normalize(value, category) for value, category in zip(user_values, categories)]
+    normalized_average_values = [normalize(value, category) for value, category in zip(average_values, categories)]
+
+    # Close the radar chart by adding the first category again
+    categories += [categories[0]]
+    normalized_user_values += [normalized_user_values[0]]
+    normalized_average_values += [normalized_average_values[0]]
+
+    # Create DataFrames for both user inputs and average values
+    df_user = pd.DataFrame({
+        'Category': categories,
+        'Value': normalized_user_values,
+        'Type': ['Your Inputs'] * len(categories)
+    })
+
+    df_average = pd.DataFrame({
+        'Category': categories,
+        'Value': normalized_average_values,
+        'Type': ['Average'] * len(categories)
+    })
+
+    # Combine both DataFrames
+    df_combined = pd.concat([df_average, df_user])
+
+    # Plot radar chart using Plotly
+    fig = px.line_polar(
+        df_combined, 
+        r='Value', 
+        theta='Category', 
+        color='Type', 
+        line_close=True
+    )
+
+    # Customize radar chart appearance
+    fig.update_layout(
+        polar=dict(
+            bgcolor="white",  
+            radialaxis=dict(
+                visible=True,
+                range=[0, 1]
+            ),
+            angularaxis=dict(
+                visible=True
+            )
+        ),
+    )
+
+    # Set fill color for user input and average areas
+    fig.update_traces(
+        fill='toself',
+        fillcolor="rgba(180, 180, 180, 0.4)",  
+        line_color="gray",  
+        selector=dict(name="Average")
+    )
+
+    fig.update_traces(
+        fill='toself',
+        fillcolor="rgba(225, 130, 180, 0.4)",  
+        line_color="red",  
+        selector=dict(name="Your Inputs")
+    )
+
+    # Display chart
+    st.plotly_chart(fig, use_container_width=True)
+
+
+
+
+
 import streamlit as st
 import numpy as np
 from joblib import load
