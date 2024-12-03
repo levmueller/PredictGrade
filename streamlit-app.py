@@ -91,6 +91,9 @@ from joblib import load
 st.title("Analysis of Results")
 st.write("Below is a comparison of your inputs against the overall average and your predicted grade based on your inputs.")
 
+st.markdown("---")
+
+
 # Create two columns
 col1, col2 = st.columns(2)
 
