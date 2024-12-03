@@ -305,8 +305,8 @@ with col2:
                 # Update the layout for better aesthetics
                 fig.update_layout(
                     showlegend=False,
-                    height=400,  # Adjust the height of the chart
-                    width=400,   # Adjust the width of the chart
+                    height=380,  # Adjust the height of the chart
+                    width=380,   # Adjust the width of the chart
                     margin=dict(t=20, b=20, l=20, r=20)  # Set margins for a cleaner look
                 )
 
