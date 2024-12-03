@@ -89,15 +89,13 @@ import plotly.express as px
 from joblib import load
 
 st.title("Analysis of Results")
-
+st.write("Below is a comparison of your inputs against the overall average and your predicted grade based on your inputs.")
 
 # Create two columns
 col1, col2 = st.columns(2)
 
 # First column: Visualization
 with col1:
-
-    st.write("Below is a comparison of your inputs against the overall average.")
 
     # Categories and Min/Max values
     categories = [
@@ -295,7 +293,6 @@ with col2:
                 predicted_prob = prob[np.argmax(prob)]  # Correct index for the highest probability class
 
                 # Display prediction text
-                st.write(f"Based on your input, there is a {predicted_prob:.1%} probability that your grade will be a {mapped_grade}.")
 
                 # Display the pie chart in Streamlit
                 st.pyplot(fig)  # Display the smaller pie chart in Streamlit
@@ -303,4 +300,7 @@ with col2:
             st.error(f"Error loading model or making predictions: {e}")
     else:
         st.warning("Please complete the questionnaire first!")
+
+    st.write(f"Based on your input, there is a {predicted_prob:.1%} probability that your grade will be a {mapped_grade}.")
+
 
