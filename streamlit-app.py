@@ -295,7 +295,7 @@ with col2:
                 )
 
                 for text in texts + autotexts:
-                    text.set_fontsize(2)  # Adjust font size for the labels and percentage text
+                    text.set_fontsize(3)  # Adjust font size for the labels and percentage text
 
                 # Add a border to the entire pie chart (outside border)
                 ax.add_patch(plt.Circle((0, 0), 1, edgecolor='gray', facecolor='none', lw=0.25))  # Border around pie chart
