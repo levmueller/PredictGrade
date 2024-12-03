@@ -79,12 +79,17 @@ if sidebar == "Questionnaire":
         support_numeric, extracurricular, sports, music, volunteering, performance
     ]
 
+import streamlit as st
+import numpy as np
+from joblib import load
+import matplotlib.pyplot as plt
+
 # Prediction page
 if sidebar == "Prediction":
     st.title("Predict Your Grade")
+    
     if st.session_state.responses:
         try:
-
             scaler = load('scaler.pkl')  # Make sure to load the correct scaler (used during training)
 
             # Correct the new_data to have 12 features in each row
@@ -100,7 +105,6 @@ if sidebar == "Prediction":
             new_data_scaled = scaler.transform(new_data)  # Use transform to scale new data without fitting again
 
             # Step 3: Load the pre-trained model (if it's saved)
-
             def reassemble_file(output_file, chunk_files):
                 with open(output_file, 'wb') as output:
                     for chunk_file in chunk_files:
@@ -128,22 +132,22 @@ if sidebar == "Prediction":
 
             # Step 8: Output the predictions and probabilities and create pie charts
             for i, (prediction, prob) in enumerate(zip(predictions, probabilities)):
-                print(f"Sample {i+1}:")
-                print(f"Original Predicted Grade: {prediction}")
-                print(f"Probabilities for each class: {prob}")
+                st.write(f"Sample {i+1}:")
+                st.write(f"Original Predicted Grade: {prediction}")
+                st.write(f"Probabilities for each class: {prob}")
                 
                 # Map the grade labels in the pie chart (only for labeling)
                 mapped_labels = [f'Grade: {grade_mapping[j]}' for j in range(len(prob))]
 
                 # Plot the probabilities in a pie chart with borders
-                plt.figure(figsize=(6, 6))
-                wedges, texts, autotexts = plt.pie(
+                fig, ax = plt.subplots(figsize=(6, 6))  # Create a figure and axis for matplotlib
+                wedges, texts, autotexts = ax.pie(
                     prob, labels=mapped_labels, autopct='%1.1f%%', startangle=140, colors=color_palette,
                     wedgeprops={'edgecolor': 'gray', 'linewidth': 1.5}  # Adding gray border around each wedge
                 )
-                
+
                 # Add a border to the entire pie chart (outside border)
-                plt.gca().add_patch(plt.Circle((0, 0), 1, edgecolor='lightgray', facecolor='none', lw=2))  # Border around pie chart
+                ax.add_patch(plt.Circle((0, 0), 1, edgecolor='lightgray', facecolor='none', lw=2))  # Border around pie chart
 
                 # Map the predicted grade using grade_mapping for the title
                 mapped_grade = grade_mapping[prediction]
@@ -152,11 +156,15 @@ if sidebar == "Prediction":
                 predicted_prob = prob[np.argmax(prob)]  # Correct index for the highest probability class
                 
                 # Title (mapped grade is used here for prediction)
-                plt.title(
+                ax.set_title(
                     f'Based on your input, there is a {predicted_prob:.1%} probability that your grade will be a {mapped_grade}.'
                 )
+
+                # Display the pie chart in Streamlit
+                st.pyplot(fig)  # Display the matplotlib figure in Streamlit
 
         except Exception as e:
             st.error(f"Error loading model or making predictions: {e}")
     else:
         st.warning("Please complete the questionnaire first!")
+
