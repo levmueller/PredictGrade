@@ -95,7 +95,7 @@ st.markdown("---")
 
 
 st.title("Analysis of Results")
-st.write("Below is a comparison of your inputs against the overall average and your predicted grade based on your inputs.")
+st.write("Below is a comparison of your inputs against the overall average (see Figure 1) and your predicted grade based on your inputs (see Figure 2).")
 
 st.markdown("---")
 
