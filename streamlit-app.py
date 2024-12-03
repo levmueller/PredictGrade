@@ -3,30 +3,30 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from joblib import load
+import plotly.express as px
 
-# Initialize session state for navigation
-if "current_page" not in st.session_state:
-    st.session_state.current_page = "Home"
+# Sidebar for navigation
+sidebar = st.sidebar.selectbox(
+    "Choose a page:",
+    ["Home", "Questionnaire", "Prediction"]
+)
 
-# Navigation function
-def navigate_to(page_name):
-    st.session_state.current_page = page_name
+# Session state to track responses
+if 'responses' not in st.session_state:
+    st.session_state.responses = []
 
-# Home Page
-if st.session_state.current_page == "Home":
+# Home page
+if sidebar == "Home":
     st.title("Welcome to GradeBoost! 🚀")
-    st.header("Assess and Boost Your Semester Performance")
+    st.header("Assess and boost your semester performance")
     st.markdown("""
     *Dear Student,*
     *We warmly welcome you to our website. Enter relevant factors and calculate your provisional grade for the semester.*
     *Good luck! 🍀*
     """)
-    # Only display the button if not already on Questionnaire page
-    if st.button("Start Questionnaire"):
-        navigate_to("Questionnaire")
 
-# Questionnaire Page
-elif st.session_state.current_page == "Questionnaire":
+# Questionnaire page
+if sidebar == "Questionnaire":
     st.title("Questionnaire")
     st.write("Please answer the following questions to calculate your expected grade.")
 
@@ -79,23 +79,90 @@ elif st.session_state.current_page == "Questionnaire":
         support_numeric, extracurricular, sports, music, volunteering, performance
     ]
 
-    # Only display the button if not already on Prediction page
-    if st.button("Go to Prediction"):
-        navigate_to("Prediction")
+import streamlit as st
+import numpy as np
+from joblib import load
+import matplotlib.pyplot as plt
 
-# Prediction Page
-elif st.session_state.current_page == "Prediction":
+# Prediction page
+if sidebar == "Prediction":
     st.title("Predict Your Grade")
     
     if st.session_state.responses:
         try:
-            # Placeholder for your model loading and prediction logic
-            st.write("This is where the prediction logic will go.")
-            st.write(f"Your responses: {st.session_state.responses}")
+            scaler = load('scaler.pkl')  # Make sure to load the correct scaler (used during training)
+
+            # Correct the new_data to have 12 features in each row
+            new_data = np.array([
+                [1, 2, 19.833723, 7, 1, 2, 0, 0, 1, 0, 2.929196, 2.0],
+                [1, 18, 0, 1, 15.408756, 0, 0, 1, 0, 0, 0, 3.042915],
+                [2, 15, 0, 3, 4.210570, 26, 0, 2, 0, 0, 0, 0.112602],
+                [3, 17, 1, 3, 10.028829, 14, 0, 3, 1, 0, 0, 2.054218],
+                [4, 17, 1, 2, 4.672495, 17, 1, 3, 0, 0, 0, 1.288061]
+            ])
+
+            # Step 2: Apply the scaling to new data (using the previously fitted scaler)
+            new_data_scaled = scaler.transform(new_data)  # Use transform to scale new data without fitting again
+
+            # Step 3: Load the pre-trained model (if it's saved)
+            def reassemble_file(output_file, chunk_files):
+                with open(output_file, 'wb') as output:
+                    for chunk_file in chunk_files:
+                        with open(chunk_file, 'rb') as file:
+                            output.write(file.read())
+
+            chunk_files = [
+                'random_forest_model.pkl.part0',
+                'random_forest_model.pkl.part1',
+                # Add other parts if applicable
+            ]
+            reassemble_file('random_forest_model.pkl', chunk_files)
+
+            model = load('random_forest_model.pkl')  # Make sure to load the correct model
+
+            # Step 4: Make predictions using the trained model
+            predictions = model.predict(new_data_scaled)
+            probabilities = model.predict_proba(new_data_scaled)
+
+            # Step 6: Mapping grades to new values: 0 -> 6, 1 -> 5, 2 -> 4, 3 -> 3, 4 -> 2
+            grade_mapping = {0: 6, 1: 5, 2: 4, 3: 3, 4: 2}
+
+            # Step 7: Custom color palette: white -> gray -> red
+            color_palette = ['#a3f0a3', '#c9f7c9', '#f4e1a1', '#f8b4b4', '#ff7373']  # From light green to pastel red
+
+            # Step 8: Output the predictions and probabilities and create pie charts
+            for i, (prediction, prob) in enumerate(zip(predictions, probabilities)):
+                
+                # Map the grade labels in the pie chart (only for labeling)
+                mapped_labels = [f'Grade: {grade_mapping[j]}' for j in range(len(prob))]
+
+                # Plot the probabilities in a pie chart with borders
+                fig, ax = plt.subplots(figsize=(2, 2))  # Create a smaller figure and axis for matplotlib
+                wedges, texts, autotexts = ax.pie(
+                    prob, labels=mapped_labels, autopct='%1.1f%%', startangle=140, colors=color_palette,
+                    wedgeprops={'edgecolor': 'gray', 'linewidth': 0.5}  # Adding gray border around each wedge
+                )
+
+                for text in texts + autotexts:
+                    text.set_fontsize(4)  # Adjust font size for the labels and percentage text
+
+                # Add a border to the entire pie chart (outside border)
+                ax.add_patch(plt.Circle((0, 0), 1, edgecolor='lightgray', facecolor='none', lw=0.5))  # Border around pie chart
+
+                # Map the predicted grade using grade_mapping for the title
+                mapped_grade = grade_mapping[prediction]
+
+                # Extract the probability of the predicted class
+                predicted_prob = prob[np.argmax(prob)]  # Correct index for the highest probability class
+
+                # Display prediction text
+                st.write(f"Based on your input, there is a {predicted_prob:.1%} probability that your grade will be a {mapped_grade}.")
+
+                # Display the pie chart in Streamlit
+                st.pyplot(fig)  # Display the smaller pie chart in Streamlit
+
+
         except Exception as e:
-            st.error(f"Error making predictions: {e}")
+            st.error(f"Error loading model or making predictions: {e}")
     else:
         st.warning("Please complete the questionnaire first!")
-
-    if st.button("Go Back to Home"):
-        navigate_to("Home")
