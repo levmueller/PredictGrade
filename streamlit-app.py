@@ -36,12 +36,12 @@ if sidebar == "Questionnaire":
     gender_mapping = {"Male": 0, "Female": 1}
     gender_numeric = gender_mapping[gender]
 
-    age = st.slider("2. How old are you?", 15, 18, 16)
+    age = st.slider("2. How old are you?", 15, 18, 15)
 
     # Academic Information
     st.subheader("Academic Information")
-    average_time = st.slider("3. How many hours per week do you study on average?", 0, 25, 12)
-    absences = st.slider("4. How many days were you absent?", 0, 30, 5)
+    average_time = st.slider("3. How many hours per week do you study on average?", 0, 25, 0)
+    absences = st.slider("4. How many days were you absent?", 0, 30, 0)
 
     tutoring = st.radio("5. Have you received tutoring?", ["Yes", "No"])
     tutoring_mapping = {"Yes": 1, "No": 0}
