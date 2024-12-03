@@ -291,14 +291,14 @@ with col2:
                 fig, ax = plt.subplots(figsize=(2, 2))  # Create a smaller figure and axis for matplotlib
                 wedges, texts, autotexts = ax.pie(
                     prob, labels=mapped_labels, autopct='%1.1f%%', startangle=140, colors=color_palette,
-                    wedgeprops={'edgecolor': 'darkgray', 'linewidth': 0.5}  # Adding gray border around each wedge
+                    wedgeprops={'edgecolor': 'gray', 'linewidth': 0.5}  # Adding gray border around each wedge
                 )
 
                 for text in texts + autotexts:
                     text.set_fontsize(4)  # Adjust font size for the labels and percentage text
 
                 # Add a border to the entire pie chart (outside border)
-                ax.add_patch(plt.Circle((0, 0), 1, edgecolor='lightgray', facecolor='none', lw=0.5))  # Border around pie chart
+                ax.add_patch(plt.Circle((0, 0), 1, edgecolor='gray', facecolor='none', lw=0.5))  # Border around pie chart
 
                 # Map the predicted grade using grade_mapping for the title
                 mapped_grade = grade_mapping[prediction]
