@@ -8,7 +8,7 @@ import plotly.express as px
 # Sidebar for navigation
 sidebar = st.sidebar.selectbox(
     "Choose a page:",
-    ["Home", "Questionnaire", "Prediction"]
+    ["Home", "Questionnaire"]
 )
 
 # Session state to track responses
