@@ -296,8 +296,6 @@ with col2:
                 predicted_grade = grade_mapping[max_prob_index]  # The corresponding grade
 
                 # Display the message with the highest probability grade
-                st.write(f"Based on your input, there is a {max_prob:.1%} probability that your grade will be a {predicted_grade}.")
-
                 # Create the pie chart
                 fig = go.Figure(data=[go.Pie(
                     labels=mapped_labels,
@@ -323,3 +321,5 @@ with col2:
             st.error(f"Error loading model or making predictions: {e}")
     else:
         st.warning("Please complete the questionnaire first!")
+
+    st.write(f"Based on your input, there is a {max_prob:.1%} probability that your grade will be a {predicted_grade}.")
