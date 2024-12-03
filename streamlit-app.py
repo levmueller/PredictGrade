@@ -21,6 +21,7 @@ if st.session_state.current_page == "Home":
     *We warmly welcome you to our website. Enter relevant factors and calculate your provisional grade for the semester.*
     *Good luck! 🍀*
     """)
+    # Only display the button if not already on Questionnaire page
     if st.button("Start Questionnaire"):
         navigate_to("Questionnaire")
 
@@ -78,6 +79,7 @@ elif st.session_state.current_page == "Questionnaire":
         support_numeric, extracurricular, sports, music, volunteering, performance
     ]
 
+    # Only display the button if not already on Prediction page
     if st.button("Go to Prediction"):
         navigate_to("Prediction")
 
