@@ -82,7 +82,17 @@ if sidebar == "Questionnaire":
     ]
 
 
-    # Visualization Section
+import streamlit as st
+import pandas as pd
+import numpy as np
+import plotly.express as px
+from joblib import load
+
+# Create two columns
+col1, col2 = st.columns(2)
+
+# First column: Visualization
+with col1:
     st.title("Analysis of Results")
     st.write("Below is a comparison of your inputs against the overall average.")
 
@@ -206,89 +216,89 @@ if sidebar == "Questionnaire":
     # Display chart
     st.plotly_chart(fig, use_container_width=True)
 
+# Second column: Additional content or prediction
+with col2:
+    st.subheader("Prediction Section")
     if st.session_state.responses:
-            try:
-                # Retrieve responses from session state
-                age, gender_numeric, parental_degree_numeric, average_time, absences, tutoring_numeric, support_numeric, extracurricular, sports, music, volunteering, performance = st.session_state.responses
-                
+        try:
+            # Retrieve responses from session state
+            age, gender_numeric, parental_degree_numeric, average_time, absences, tutoring_numeric, support_numeric, extracurricular, sports, music, volunteering, performance = st.session_state.responses
 
-                def swiss_to_us_gpa(swiss_grade):
-                    return 2 + ((swiss_grade - 1) / 5) * 2
+            def swiss_to_us_gpa(swiss_grade):
+                return 2 + ((swiss_grade - 1) / 5) * 2
 
-                # Example usage:
-                swiss_grade = performance  # Example Swiss grade
-                us_gpa = swiss_to_us_gpa(swiss_grade)
+            swiss_grade = performance  # Example Swiss grade
+            us_gpa = swiss_to_us_gpa(swiss_grade)
 
-                scaler = load('scaler.pkl')  # Make sure to load the correct scaler (used during training)
+            scaler = load('scaler.pkl')  # Make sure to load the correct scaler (used during training)
 
-                # Correct the new_data to have 12 features in each row
-                new_data = np.array([
-                    [age, gender_numeric, parental_degree_numeric, average_time, absences, tutoring_numeric, support_numeric, extracurricular, sports, music, volunteering, us_gpa]
-                    # Add more rows for prediction if needed
-                ])
+            # Correct the new_data to have 12 features in each row
+            new_data = np.array([
+                [age, gender_numeric, parental_degree_numeric, average_time, absences, tutoring_numeric, support_numeric, extracurricular, sports, music, volunteering, us_gpa]
+                # Add more rows for prediction if needed
+            ])
 
-                # Step 2: Apply the scaling to new data (using the previously fitted scaler)
-                new_data_scaled = scaler.transform(new_data)  # Use transform to scale new data without fitting again
+            # Step 2: Apply the scaling to new data (using the previously fitted scaler)
+            new_data_scaled = scaler.transform(new_data)  # Use transform to scale new data without fitting again
 
-                # Step 3: Load the pre-trained model (if it's saved)
-                def reassemble_file(output_file, chunk_files):
-                    with open(output_file, 'wb') as output:
-                        for chunk_file in chunk_files:
-                            with open(chunk_file, 'rb') as file:
-                                output.write(file.read())
+            # Step 3: Load the pre-trained model (if it's saved)
+            def reassemble_file(output_file, chunk_files):
+                with open(output_file, 'wb') as output:
+                    for chunk_file in chunk_files:
+                        with open(chunk_file, 'rb') as file:
+                            output.write(file.read())
 
-                chunk_files = [
-                    'random_forest_model.pkl.part0',
-                    'random_forest_model.pkl.part1',
-                    # Add other parts if applicable
-                ]
-                reassemble_file('random_forest_model.pkl', chunk_files)
+            chunk_files = [
+                'random_forest_model.pkl.part0',
+                'random_forest_model.pkl.part1',
+                # Add other parts if applicable
+            ]
+            reassemble_file('random_forest_model.pkl', chunk_files)
 
-                model = load('random_forest_model.pkl')  # Make sure to load the correct model
+            model = load('random_forest_model.pkl')  # Make sure to load the correct model
 
-                # Step 4: Make predictions using the trained model
-                predictions = model.predict(new_data_scaled)
-                probabilities = model.predict_proba(new_data_scaled)
+            # Step 4: Make predictions using the trained model
+            predictions = model.predict(new_data_scaled)
+            probabilities = model.predict_proba(new_data_scaled)
 
-                # Step 6: Mapping grades to new values: 0 -> 6, 1 -> 5, 2 -> 4, 3 -> 3, 4 -> 2
-                grade_mapping = {0: 6, 1: 5, 2: 4, 3: 3, 4: 2}
+            # Step 6: Mapping grades to new values: 0 -> 6, 1 -> 5, 2 -> 4, 3 -> 3, 4 -> 2
+            grade_mapping = {0: 6, 1: 5, 2: 4, 3: 3, 4: 2}
 
-                # Step 7: Custom color palette: white -> gray -> red
-                color_palette = ['#a3f0a3', '#c9f7c9', '#f4e1a1', '#f8b4b4', '#ff7373']  # From light green to pastel red
+            # Step 7: Custom color palette: white -> gray -> red
+            color_palette = ['#a3f0a3', '#c9f7c9', '#f4e1a1', '#f8b4b4', '#ff7373']  # From light green to pastel red
 
-                # Step 8: Output the predictions and probabilities and create pie charts
-                for i, (prediction, prob) in enumerate(zip(predictions, probabilities)):
-                    
-                    # Map the grade labels in the pie chart (only for labeling)
-                    mapped_labels = [f'Grade: {grade_mapping[j]}' for j in range(len(prob))]
+            # Step 8: Output the predictions and probabilities and create pie charts
+            for i, (prediction, prob) in enumerate(zip(predictions, probabilities)):
 
-                    # Plot the probabilities in a pie chart with borders
-                    fig, ax = plt.subplots(figsize=(2, 2))  # Create a smaller figure and axis for matplotlib
-                    wedges, texts, autotexts = ax.pie(
-                        prob, labels=mapped_labels, autopct='%1.1f%%', startangle=140, colors=color_palette,
-                        wedgeprops={'edgecolor': 'gray', 'linewidth': 0.5}  # Adding gray border around each wedge
-                    )
+                # Map the grade labels in the pie chart (only for labeling)
+                mapped_labels = [f'Grade: {grade_mapping[j]}' for j in range(len(prob))]
 
-                    for text in texts + autotexts:
-                        text.set_fontsize(4)  # Adjust font size for the labels and percentage text
+                # Plot the probabilities in a pie chart with borders
+                fig, ax = plt.subplots(figsize=(2, 2))  # Create a smaller figure and axis for matplotlib
+                wedges, texts, autotexts = ax.pie(
+                    prob, labels=mapped_labels, autopct='%1.1f%%', startangle=140, colors=color_palette,
+                    wedgeprops={'edgecolor': 'gray', 'linewidth': 0.5}  # Adding gray border around each wedge
+                )
 
-                    # Add a border to the entire pie chart (outside border)
-                    ax.add_patch(plt.Circle((0, 0), 1, edgecolor='lightgray', facecolor='none', lw=0.5))  # Border around pie chart
+                for text in texts + autotexts:
+                    text.set_fontsize(4)  # Adjust font size for the labels and percentage text
 
-                    # Map the predicted grade using grade_mapping for the title
-                    mapped_grade = grade_mapping[prediction]
+                # Add a border to the entire pie chart (outside border)
+                ax.add_patch(plt.Circle((0, 0), 1, edgecolor='lightgray', facecolor='none', lw=0.5))  # Border around pie chart
 
-                    # Extract the probability of the predicted class
-                    predicted_prob = prob[np.argmax(prob)]  # Correct index for the highest probability class
+                # Map the predicted grade using grade_mapping for the title
+                mapped_grade = grade_mapping[prediction]
 
-                    # Display prediction text
-                    st.write(f"Based on your input, there is a {predicted_prob:.1%} probability that your grade will be a {mapped_grade}.")
+                # Extract the probability of the predicted class
+                predicted_prob = prob[np.argmax(prob)]  # Correct index for the highest probability class
 
-                    # Display the pie chart in Streamlit
-                    st.pyplot(fig)  # Display the smaller pie chart in Streamlit
+                # Display prediction text
+                st.write(f"Based on your input, there is a {predicted_prob:.1%} probability that your grade will be a {mapped_grade}.")
 
-
-            except Exception as e:
-                st.error(f"Error loading model or making predictions: {e}")
-
+                # Display the pie chart in Streamlit
+                st.pyplot(fig)  # Display the smaller pie chart in Streamlit
+        except Exception as e:
+            st.error(f"Error loading model or making predictions: {e}")
+    else:
+        st.warning("Please complete the questionnaire first!")
 
