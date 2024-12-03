@@ -274,7 +274,6 @@ with col2:
             # Step 4: Make predictions using the trained model
             predictions = model.predict(new_data_scaled)
             probabilities = model.predict_proba(new_data_scaled)
-            predicted_prob = prob[np.argmax(prob)]  # Correct index for the highest probability class
 
             # Step 6: Mapping grades to new values: 0 -> 6, 1 -> 5, 2 -> 4, 3 -> 3, 4 -> 2
             grade_mapping = {0: 6, 1: 5, 2: 4, 3: 3, 4: 2}
