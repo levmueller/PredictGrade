@@ -10,7 +10,7 @@ sidebar = st.sidebar.selectbox(
     "Choose a page:",
     ["Home", "Questionnaire"]
 )
-
+st.set_page_config(layout="wide")
 # Session state to track responses
 if 'responses' not in st.session_state:
     st.session_state.responses = []
