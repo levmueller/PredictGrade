@@ -284,14 +284,19 @@ with col2:
             # Step 8: Output the predictions and probabilities and create pie charts
             import plotly.graph_objects as go
 
-            # Define the color palette
-            color_palette = ['#a3f0a3', '#c9f7c9', '#f4e1a1', '#f8b4b4', '#ff7373']  # From light green to pastel red
-
             # Create the pie chart using Plotly
             for i, (prediction, prob) in enumerate(zip(predictions, probabilities)):
-
+                
                 # Map the grade labels
                 mapped_labels = [f'Grade: {grade_mapping[j]}' for j in range(len(prob))]
+
+                # Get the highest probability and the corresponding grade
+                max_prob_index = prob.argmax()  # Index of the highest probability
+                max_prob = prob[max_prob_index]  # The highest probability value
+                predicted_grade = grade_mapping[max_prob_index]  # The corresponding grade
+
+                # Display the message with the highest probability grade
+                st.write(f"Based on your input, there is a {max_prob:.1%} probability that your grade will be a {predicted_grade}.")
 
                 # Create the pie chart
                 fig = go.Figure(data=[go.Pie(
@@ -313,11 +318,8 @@ with col2:
                 # Display the Plotly pie chart in Streamlit
                 st.plotly_chart(fig, use_container_width=True)
 
+
         except Exception as e:
             st.error(f"Error loading model or making predictions: {e}")
     else:
         st.warning("Please complete the questionnaire first!")
-
-st.write(f"Based on your input, there is a {probabilities} probability that your grade will be a {mapped_grade}.")
-
-
