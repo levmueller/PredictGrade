@@ -94,11 +94,10 @@ if sidebar == "Prediction":
 
             # Correct the new_data to have 12 features in each row
             new_data = np.array([
-                [1, 2, 19.833723, 7, 1, 2, 0, 0, 1, 0, 2.929196, 2.0],
-                [1, 18, 0, 1, 15.408756, 0, 0, 1, 0, 0, 0, 3.042915],
-                [2, 15, 0, 3, 4.210570, 26, 0, 2, 0, 0, 0, 0.112602],
-                [3, 17, 1, 3, 10.028829, 14, 0, 3, 1, 0, 0, 2.054218],
-                [4, 17, 1, 2, 4.672495, 17, 1, 3, 0, 0, 0, 1.288061]
+                [age, gender_numeric, parental_degree_numeric, average_time, absences, tutoring, support_numeric, extracurricular, sports, music, volunteering, 2],
+                [18, 0, 1, 15.408756, 0, 0, 1, 0, 0, 0, 0, 3.042915],
+                [15, 0, 3, 4.210570, 26, 0, 2, 0, 0, 0, 0, 0.112602],
+                [17, 1, 3, 10.028829, 14, 0, 3, 1, 0, 0, 0, 2.054218]
             ])
 
             # Step 2: Apply the scaling to new data (using the previously fitted scaler)
