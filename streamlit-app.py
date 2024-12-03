@@ -97,6 +97,8 @@ col1, col2 = st.columns(2)
 # First column: Visualization
 with col1:
 
+    st.write("Figure 1: Inputs vs. overall average")
+
     # Categories and Min/Max values
     categories = [
         "Age", 
@@ -219,6 +221,9 @@ with col1:
 
 # Second column: Additional content or prediction
 with col2:
+
+    st.write("Figure 2: Predicted probabilities of grades")
+
     if st.session_state.responses:
         try:
             # Retrieve responses from session state
