@@ -88,6 +88,9 @@ import numpy as np
 import plotly.express as px
 from joblib import load
 
+st.markdown("---")
+
+
 st.title("Analysis of Results")
 st.write("Below is a comparison of your inputs against the overall average and your predicted grade based on your inputs.")
 
