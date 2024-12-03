@@ -85,19 +85,21 @@ from joblib import load
 import matplotlib.pyplot as plt
 
 # Prediction page
+# Prediction page
 if sidebar == "Prediction":
     st.title("Predict Your Grade")
     
     if st.session_state.responses:
         try:
+            # Retrieve responses from session state
+            age, gender_numeric, parental_degree_numeric, average_time, absences, tutoring_numeric, support_numeric, extracurricular, sports, music, volunteering, performance = st.session_state.responses
+            
             scaler = load('scaler.pkl')  # Make sure to load the correct scaler (used during training)
 
             # Correct the new_data to have 12 features in each row
             new_data = np.array([
-                [age, gender_numeric, parental_degree_numeric, average_time, absences, tutoring, support_numeric, extracurricular, sports, music, volunteering, 2],
-                [18, 0, 1, 15.408756, 0, 0, 1, 0, 0, 0, 0, 3.042915],
-                [15, 0, 3, 4.210570, 26, 0, 2, 0, 0, 0, 0, 0.112602],
-                [17, 1, 3, 10.028829, 14, 0, 3, 1, 0, 0, 0, 2.054218]
+                [age, gender_numeric, parental_degree_numeric, average_time, absences, tutoring_numeric, support_numeric, extracurricular, sports, music, volunteering, performance]
+                # Add more rows for prediction if needed
             ])
 
             # Step 2: Apply the scaling to new data (using the previously fitted scaler)
