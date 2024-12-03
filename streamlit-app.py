@@ -84,8 +84,22 @@ if sidebar == "Prediction":
     st.title("Predict Your Grade")
     if st.session_state.responses:
         try:
-            # Load pre-trained scaler and model
-            scaler = load('scaler.pkl')
+
+            scaler = load('scaler.pkl')  # Make sure to load the correct scaler (used during training)
+
+            # Correct the new_data to have 12 features in each row
+            new_data = np.array([
+                [1, 2, 19.833723, 7, 1, 2, 0, 0, 1, 0, 2.929196, 2.0],
+                [1, 18, 0, 1, 15.408756, 0, 0, 1, 0, 0, 0, 3.042915],
+                [2, 15, 0, 3, 4.210570, 26, 0, 2, 0, 0, 0, 0.112602],
+                [3, 17, 1, 3, 10.028829, 14, 0, 3, 1, 0, 0, 2.054218],
+                [4, 17, 1, 2, 4.672495, 17, 1, 3, 0, 0, 0, 1.288061]
+            ])
+
+            # Step 2: Apply the scaling to new data (using the previously fitted scaler)
+            new_data_scaled = scaler.transform(new_data)  # Use transform to scale new data without fitting again
+
+            # Step 3: Load the pre-trained model (if it's saved)
 
             def reassemble_file(output_file, chunk_files):
                 with open(output_file, 'wb') as output:
@@ -99,43 +113,12 @@ if sidebar == "Prediction":
                 # Add other parts if applicable
             ]
             reassemble_file('random_forest_model.pkl', chunk_files)
-    
 
-            import pickle
-            try:
-                with open('random_forest_model.pkl', 'rb') as f:
-                    model = pickle.load(f)
-            except Exception as e:
-                st.error(f"Error loading model with pickle: {e}")
+            model = load('random_forest_model.pkl')  # Make sure to load the correct model
 
-            # Prepare and scale input
-            input_data = np.array([st.session_state.responses])
-            input_scaled = scaler.transform(input_data)
-
-            # Predict grade and probabilities
-            prediction = model.predict(input_scaled)[0]
-            probabilities = model.predict_proba(input_scaled)[0]
-
-            # Grade mapping
-            grade_mapping = {0: 6, 1: 5, 2: 4, 3: 3, 4: 2}
-            predicted_grade = grade_mapping[prediction]
-
-            # Display predicted grade
-            st.subheader(f"Predicted Grade: **{predicted_grade}**")
-
-            # Display probability distribution
-            prob_df = pd.DataFrame({
-                "Grade": [grade_mapping[i] for i in range(len(probabilities))],
-                "Probability": probabilities
-            })
-            fig = px.pie(
-                prob_df, 
-                names='Grade', 
-                values='Probability', 
-                title="Probability Distribution of Predicted Grades",
-                color_discrete_sequence=px.colors.sequential.RdBu
-            )
-            st.plotly_chart(fig, use_container_width=True)
+            # Step 4: Make predictions using the trained model
+            predictions = model.predict(new_data_scaled)
+            probabilities = model.predict_proba(new_data_scaled)
 
         except Exception as e:
             st.error(f"Error loading model or making predictions: {e}")
