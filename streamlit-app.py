@@ -304,7 +304,6 @@ with col2:
 
                 # Update the layout for better aesthetics
                 fig.update_layout(
-                    title=f"Prediction: Grade {grade_mapping[prediction]}",
                     showlegend=False,
                     height=400,  # Adjust the height of the chart
                     width=400,   # Adjust the width of the chart
