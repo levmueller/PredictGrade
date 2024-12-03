@@ -120,22 +120,41 @@ if sidebar == "Prediction":
             predictions = model.predict(new_data_scaled)
             probabilities = model.predict_proba(new_data_scaled)
 
-            # Swiss grades dictionary
-            swiss_grades = {0: 2.0, 1: 3.0, 2: 4.0, 3: 5.0, 4: 6.0}
+            # Step 6: Mapping grades to new values: 0 -> 6, 1 -> 5, 2 -> 4, 3 -> 3, 4 -> 2
+            grade_mapping = {0: 6, 1: 5, 2: 4, 3: 3, 4: 2}
 
-            # Step 5: Output the probabilities for each class and convert to Swiss grade
+            # Step 7: Custom color palette: white -> gray -> red
+            color_palette = ['#a3f0a3', '#c9f7c9', '#f4e1a1', '#f8b4b4', '#ff7373']  # From light green to pastel red
+
+            # Step 8: Output the predictions and probabilities and create pie charts
             for i, (prediction, prob) in enumerate(zip(predictions, probabilities)):
-                swiss_grade = swiss_grades[prediction]  # Map the class index to Swiss grade
-                
                 print(f"Sample {i+1}:")
-                print(f"Predicted Swiss Grade: {swiss_grade}")
+                print(f"Original Predicted Grade: {prediction}")
+                print(f"Probabilities for each class: {prob}")
                 
-                print("Class Probabilities:")
-                for class_idx, class_prob in enumerate(prob):
-                    swiss_grade_class = swiss_grades[class_idx]  # Convert the class index to Swiss grade
-                    print(f"Grade {swiss_grade_class}: {class_prob * 100:.2f}%")
+                # Map the grade labels in the pie chart (only for labeling)
+                mapped_labels = [f'Grade: {grade_mapping[j]}' for j in range(len(prob))]
+
+                # Plot the probabilities in a pie chart with borders
+                plt.figure(figsize=(6, 6))
+                wedges, texts, autotexts = plt.pie(
+                    prob, labels=mapped_labels, autopct='%1.1f%%', startangle=140, colors=color_palette,
+                    wedgeprops={'edgecolor': 'gray', 'linewidth': 1.5}  # Adding gray border around each wedge
+                )
                 
-                print("-" * 30)
+                # Add a border to the entire pie chart (outside border)
+                plt.gca().add_patch(plt.Circle((0, 0), 1, edgecolor='lightgray', facecolor='none', lw=2))  # Border around pie chart
+
+                # Map the predicted grade using grade_mapping for the title
+                mapped_grade = grade_mapping[prediction]
+                
+                # Extract the probability of the predicted class
+                predicted_prob = prob[np.argmax(prob)]  # Correct index for the highest probability class
+                
+                # Title (mapped grade is used here for prediction)
+                plt.title(
+                    f'Based on your input, there is a {predicted_prob:.1%} probability that your grade will be a {mapped_grade}.'
+                )
 
         except Exception as e:
             st.error(f"Error loading model or making predictions: {e}")
