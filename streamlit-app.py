@@ -94,11 +94,19 @@ if sidebar == "Prediction":
             # Retrieve responses from session state
             age, gender_numeric, parental_degree_numeric, average_time, absences, tutoring_numeric, support_numeric, extracurricular, sports, music, volunteering, performance = st.session_state.responses
             
+
+            def swiss_to_us_gpa(swiss_grade):
+                return 2 + ((swiss_grade - 1) / 5) * 2
+
+            # Example usage:
+            swiss_grade = performance  # Example Swiss grade
+            us_gpa = swiss_to_us_gpa(swiss_grade)
+
             scaler = load('scaler.pkl')  # Make sure to load the correct scaler (used during training)
 
             # Correct the new_data to have 12 features in each row
             new_data = np.array([
-                [age, gender_numeric, parental_degree_numeric, average_time, absences, tutoring_numeric, support_numeric, extracurricular, sports, music, volunteering, performance]
+                [age, gender_numeric, parental_degree_numeric, average_time, absences, tutoring_numeric, support_numeric, extracurricular, sports, music, volunteering, us_gpa]
                 # Add more rows for prediction if needed
             ])
 
