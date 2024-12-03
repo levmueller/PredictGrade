@@ -137,7 +137,7 @@ if sidebar == "Prediction":
                 mapped_labels = [f'Grade: {grade_mapping[j]}' for j in range(len(prob))]
 
                 # Plot the probabilities in a pie chart with borders
-                fig, ax = plt.subplots(figsize=(4, 4))  # Create a smaller figure and axis for matplotlib
+                fig, ax = plt.subplots(figsize=(2, 2))  # Create a smaller figure and axis for matplotlib
                 wedges, texts, autotexts = ax.pie(
                     prob, labels=mapped_labels, autopct='%1.1f%%', startangle=140, colors=color_palette,
                     wedgeprops={'edgecolor': 'gray', 'linewidth': 1.5}  # Adding gray border around each wedge
