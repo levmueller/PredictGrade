@@ -32,6 +32,9 @@ if sidebar == "Questionnaire":
     st.title("Questionnaire")
     st.write("Please answer the following questions to calculate your expected grade.")
 
+    st.markdown("---")
+
+
     # Personal Information
     st.subheader("Personal Information")
     gender = st.radio("1. What is your gender?", ["Male", "Female"])
