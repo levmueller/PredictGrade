@@ -120,7 +120,22 @@ if sidebar == "Prediction":
             predictions = model.predict(new_data_scaled)
             probabilities = model.predict_proba(new_data_scaled)
 
-            st.write(predictions)
+            # Swiss grades dictionary
+            swiss_grades = {0: 2.0, 1: 3.0, 2: 4.0, 3: 5.0, 4: 6.0}
+
+            # Step 5: Output the probabilities for each class and convert to Swiss grade
+            for i, (prediction, prob) in enumerate(zip(predictions, probabilities)):
+                swiss_grade = swiss_grades[prediction]  # Map the class index to Swiss grade
+                
+                print(f"Sample {i+1}:")
+                print(f"Predicted Swiss Grade: {swiss_grade}")
+                
+                print("Class Probabilities:")
+                for class_idx, class_prob in enumerate(prob):
+                    swiss_grade_class = swiss_grades[class_idx]  # Convert the class index to Swiss grade
+                    print(f"Grade {swiss_grade_class}: {class_prob * 100:.2f}%")
+                
+                print("-" * 30)
 
         except Exception as e:
             st.error(f"Error loading model or making predictions: {e}")
