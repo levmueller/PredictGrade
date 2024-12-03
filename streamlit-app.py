@@ -137,7 +137,7 @@ if sidebar == "Prediction":
                 mapped_labels = [f'Grade: {grade_mapping[j]}' for j in range(len(prob))]
 
                 # Plot the probabilities in a pie chart with borders
-                fig, ax = plt.subplots(figsize=(6, 6))  # Create a figure and axis for matplotlib
+                fig, ax = plt.subplots(figsize=(4, 4))  # Create a smaller figure and axis for matplotlib
                 wedges, texts, autotexts = ax.pie(
                     prob, labels=mapped_labels, autopct='%1.1f%%', startangle=140, colors=color_palette,
                     wedgeprops={'edgecolor': 'gray', 'linewidth': 1.5}  # Adding gray border around each wedge
@@ -148,16 +148,16 @@ if sidebar == "Prediction":
 
                 # Map the predicted grade using grade_mapping for the title
                 mapped_grade = grade_mapping[prediction]
-                
+
                 # Extract the probability of the predicted class
                 predicted_prob = prob[np.argmax(prob)]  # Correct index for the highest probability class
-                
+
+                # Display prediction text
                 st.write(f"Based on your input, there is a {predicted_prob:.1%} probability that your grade will be a {mapped_grade}.")
 
                 # Display the pie chart in Streamlit
-                fig, ax = plt.subplots(figsize=(4, 4))  # Smaller figure size, 4 inches by 4 inches
+                st.pyplot(fig)  # Display the smaller pie chart in Streamlit
 
-                st.pyplot(fig)  # Display the matplotlib figure in Streamlit
 
         except Exception as e:
             st.error(f"Error loading model or making predictions: {e}")
