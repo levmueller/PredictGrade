@@ -88,12 +88,15 @@ import numpy as np
 import plotly.express as px
 from joblib import load
 
+st.title("Analysis of Results")
+
+
 # Create two columns
 col1, col2 = st.columns(2)
 
 # First column: Visualization
 with col1:
-    st.title("Analysis of Results")
+
     st.write("Below is a comparison of your inputs against the overall average.")
 
     # Categories and Min/Max values
@@ -218,7 +221,6 @@ with col1:
 
 # Second column: Additional content or prediction
 with col2:
-    st.subheader("Prediction Section")
     if st.session_state.responses:
         try:
             # Retrieve responses from session state
