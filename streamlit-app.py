@@ -120,6 +120,8 @@ if sidebar == "Prediction":
             predictions = model.predict(new_data_scaled)
             probabilities = model.predict_proba(new_data_scaled)
 
+            st.write(predictions)
+
         except Exception as e:
             st.error(f"Error loading model or making predictions: {e}")
     else:
