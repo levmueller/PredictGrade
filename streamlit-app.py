@@ -322,4 +322,4 @@ with col2:
     else:
         st.warning("Please complete the questionnaire first!")
 
-    st.write(f"Based on your input, there is a {max_prob:.1%} probability that your grade will be a {predicted_grade}.")
+st.write(f"Based on your input, there is a {max_prob:.1%} probability that your grade will be a {predicted_grade}.")
