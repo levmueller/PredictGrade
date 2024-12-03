@@ -152,10 +152,7 @@ if sidebar == "Prediction":
                 # Extract the probability of the predicted class
                 predicted_prob = prob[np.argmax(prob)]  # Correct index for the highest probability class
                 
-                # Title (mapped grade is used here for prediction)
-                ax.set_title(
-                    f'Based on your input, there is a {predicted_prob:.1%} probability that your grade will be a {mapped_grade}.'
-                )
+                st.write(f"Based on your input, there is a {predicted_prob:.1%} probability that your grade will be a {mapped_grade}.")
 
                 # Display the pie chart in Streamlit
                 st.pyplot(fig)  # Display the matplotlib figure in Streamlit
