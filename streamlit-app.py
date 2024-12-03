@@ -306,8 +306,8 @@ with col2:
                 fig.update_layout(
                     title=f"Prediction: Grade {grade_mapping[prediction]}",
                     showlegend=False,
-                    height=300,  # Adjust the height of the chart
-                    width=300,   # Adjust the width of the chart
+                    height=500,  # Adjust the height of the chart
+                    width=500,   # Adjust the width of the chart
                     margin=dict(t=20, b=20, l=20, r=20)  # Set margins for a cleaner look
                 )
 
