@@ -318,6 +318,6 @@ with col2:
     else:
         st.warning("Please complete the questionnaire first!")
 
-st.write(f"Based on your input, there is a {probabilities:.1%} probability that your grade will be a {mapped_grade}.")
+st.write(f"Based on your input, there is a {probabilities} probability that your grade will be a {mapped_grade}.")
 
 
