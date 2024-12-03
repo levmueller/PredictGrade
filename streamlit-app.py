@@ -101,7 +101,12 @@ if sidebar == "Prediction":
             reassemble_file('random_forest_model.pkl', chunk_files)
     
 
-            model = load('random_forest_model.pkl')
+            import pickle
+            try:
+                with open('random_forest_model.pkl', 'rb') as f:
+                    model = pickle.load(f)
+            except Exception as e:
+                st.error(f"Error loading model with pickle: {e}")
 
             # Prepare and scale input
             input_data = np.array([st.session_state.responses])
