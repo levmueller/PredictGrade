@@ -43,8 +43,8 @@ if sidebar == "Questionnaire":
     average_time = st.slider("3. How many hours per week do you study on average?", 0, 25, 0)
     absences = st.slider("4. How many days were you absent?", 0, 30, 0)
 
-    tutoring = st.radio("5. Have you received tutoring?", ["Yes", "No"])
-    tutoring_mapping = {"Yes": 1, "No": 0}
+    tutoring = st.radio("5. Have you received tutoring?", ["No", "Yes"])
+    tutoring_mapping = {"No": 0, "Yes": 1}
     tutoring_numeric = tutoring_mapping[tutoring]
 
     performance = st.slider("6. What is your current GPA?", min_value=1.0, max_value=6.0, step=0.05)
