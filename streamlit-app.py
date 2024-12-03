@@ -140,7 +140,7 @@ if sidebar == "Prediction":
                 fig, ax = plt.subplots(figsize=(2, 2))  # Create a smaller figure and axis for matplotlib
                 wedges, texts, autotexts = ax.pie(
                     prob, labels=mapped_labels, autopct='%1.1f%%', startangle=140, colors=color_palette,
-                    wedgeprops={'edgecolor': 'gray', 'linewidth': 1.5}  # Adding gray border around each wedge
+                    wedgeprops={'edgecolor': 'gray', 'linewidth': 0.5}  # Adding gray border around each wedge
                 )
 
                 for text in texts + autotexts:
