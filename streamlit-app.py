@@ -1,16 +1,21 @@
 import streamlit as st
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from joblib import load
+import plotly.express as px
 
-
+# Sidebar for navigation
 sidebar = st.sidebar.selectbox(
     "Choose a page:",
-    ["Home", "Questionnaire", "GitHub API"]
+    ["Home", "Questionnaire", "Prediction"]
 )
 
-# Fragebogen-Daten speichern
+# Session state to track responses
 if 'responses' not in st.session_state:
     st.session_state.responses = []
- 
-# Home-Seite
+
+# Home page
 if sidebar == "Home":
     st.title("Welcome to GradeBoost! 🚀")
     st.header("Assess and boost your semester performance")
@@ -20,205 +25,75 @@ if sidebar == "Home":
     *Good luck! 🍀*
     """)
 
-
-import streamlit as st
-import plotly.express as px
-import pandas as pd
-import numpy as np
-
-import streamlit as st
-import plotly.express as px
-import pandas as pd
-import numpy as np
-
-import streamlit as st
-import plotly.express as px
-import pandas as pd
-import numpy as np
-
-# Question and User Inputs Section
+# Questionnaire page
 if sidebar == "Questionnaire":
     st.title("Questionnaire")
     st.write("Please answer the following questions to calculate your expected grade.")
+    # Inputs for the model
+    age = st.slider("Age:", 15, 18, 16)
+    gender = st.radio("Gender:", ["Male", "Female"])
+    average_time = st.slider("Weekly Study Time (hours):", 0, 25, 12)
+    absences = st.slider("Number of Absences:", 0, 30, 5)
+    tutoring = st.radio("Received Tutoring:", ["Yes", "No"])
+    performance = st.slider("Current GPA:", 1.0, 6.0, 3.0)
+    extracurricular = st.multiselect("Extracurricular Activities:", ["Sports", "Music", "Volunteering", "Other"])
+    parental_support = st.select_slider("Parental Support:", ["None", "Low", "Moderate", "High", "Very High"])
+    parental_degree = st.radio("Parental Education Level:", ["No degree", "High School", "Bachelor's", "Master's", "PhD"])
 
-    # Gender
-    st.subheader("Personal Information")
-    gender = st.radio("2. What is your gender?", ["Male", "Female"])
-    gender_mapping = {"Male": 0, "Female": 1}
-    gender_numeric = gender_mapping[gender]
+    # Mapping inputs to numeric values for the model
+    gender_numeric = {"Male": 0, "Female": 1}[gender]
+    tutoring_numeric = {"Yes": 1, "No": 0}[tutoring]
+    parental_support_numeric = {"None": 0, "Low": 1, "Moderate": 2, "High": 3, "Very High": 4}[parental_support]
+    parental_degree_numeric = {"No degree": 0, "High School": 1, "Bachelor's": 2, "Master's": 3, "PhD": 4}[parental_degree]
+    extracurricular_numeric = int(len(extracurricular) > 0)  # Example: 1 if activities exist, 0 otherwise
 
-    # Age
-    age = st.slider("1. How old are you?", 15, 18, 16)
+    # Save inputs for prediction
+    st.session_state.responses = [
+        age, gender_numeric, average_time, absences, tutoring_numeric, performance, 
+        extracurricular_numeric, parental_support_numeric, parental_degree_numeric
+    ]
 
-    # Study Time and Absences
-    st.subheader("Academic Information")
-    average_time = st.slider("2. How many hours per week do you study on average?", 0, 25, 12)
-    absences = st.slider("2. How many days were you absent?", 0, 30, 5)
-
-    # Tutoring
-    tutoring = st.radio("3. Have you received tutoring?", ["Yes", "No"])
-    tutoring_mapping = {"Yes": 1, "No": 0}
-    tutoring_numeric = tutoring_mapping[tutoring]
-
-    # GPA
-    performance = st.slider("5. What is your current GPA:", min_value=1.0, max_value=6.0, step=0.05)
-
-    # Extracurricular Activities
-    st.subheader("Extracurricular Activities")
-    sports = 0
-    music = 0
-    volunteering = 0
-    extracurricular = 0
-
-    spec_ex_activities = st.multiselect(
-        "Which activities do you participate in?",
-        ["Sports", "Music", "Volunteering", "Extracurricular Activities"]
-    )
-
-    # Set variables to 1 if the activity is selected
-    if "Sports" in spec_ex_activities:
-        sports = 1
-    if "Music" in spec_ex_activities:
-        music = 1
-    if "Volunteering" in spec_ex_activities:
-        volunteering = 1
-    if "Extracurricular" in spec_ex_activities:
-        extracurricular = 1
-
-    # Support
-    st.header("Parental Support & Education")
-    support = st.select_slider("7. Rate the support from your parents:", ["No support", "Low", "Moderate", "High", "Very high"])
-    degree_mapping_support = {"No support": 0, "Low": 1, "Moderate": 2, "High": 3, "Very high": 4}
-    support_numeric = degree_mapping_support[support]
-
-    # Parental Degree
-    parental_degree = st.radio("8. What is the highest education level your parents completed?", ["No degree", "High School", "Bachelor's", "Master's", "PhD"])
-    degree_mapping_parental = {"No degree": 0, "High School": 1, "Bachelor's": 2, "Master's": 3, "PhD": 4}
-    parental_degree_numeric = degree_mapping_parental[parental_degree]
-
-st.markdown("---")
-
-
-# Visualization Section
-st.title("Analysis of Results")
-st.write("Below is a comparison of your inputs against the overall average.")
-
-# Categories and Min/Max values
-categories = [
-    "Age", 
-    "Parental Education", 
-    "Weekly Study Time", 
-    "Absences", 
-    "Parental Support",
-    "Tutoring",
-    "GPA",
-    "Sports",
-    "Music",
-    "Volunteering",
-    "Extracurricular Activities"
-]
-
-# Define min and max values for each category
-min_values = {
-    "Age": 15, 
-    "Parental Education": 0, 
-    "Weekly Study Time": 0, 
-    "Absences": 0, 
-    "Parental Support": 0,
-    "Tutoring": 0,
-    "GPA": 1,
-    "Sports": 0,
-    "Music": 0,
-    "Volunteering": 0,
-    "Extracurricular Activities": 0
-}
-
-max_values = {
-    "Age": 18, 
-    "Parental Education": 4, 
-    "Weekly Study Time": 25, 
-    "Absences": 30, 
-    "Parental Support": 4,
-    "Tutoring": 1,
-    "GPA": 6,
-    "Sports": 1,
-    "Music": 1,
-    "Volunteering": 1,
-    "Extracurricular Activities": 1
-}
-
-# Average values for comparison (you can adjust these based on your data)
-average_values = [16.46864548, 1.746237458, 9.771991919, 14.54138796, 2.122073579, 0.5, 4, 0.5, 0.5, 0.5, 0.5]
-
-# User's values based on their inputs
-user_values = [age, parental_degree_numeric, average_time, absences, support_numeric, tutoring_numeric, performance, sports, music, volunteering, extracurricular]
-
-# Normalize the user values and the average values
-def normalize(value, category):
-    return (value - min_values[category]) / (max_values[category] - min_values[category])
-
-# Apply normalization
-normalized_user_values = [normalize(value, category) for value, category in zip(user_values, categories)]
-normalized_average_values = [normalize(value, category) for value, category in zip(average_values, categories)]
-
-# Close the radar chart by adding the first category again
-categories += [categories[0]]
-normalized_user_values += [normalized_user_values[0]]
-normalized_average_values += [normalized_average_values[0]]
-
-# Create DataFrames for both user inputs and average values
-df_user = pd.DataFrame({
-    'Category': categories,
-    'Value': normalized_user_values,
-    'Type': ['Your Inputs'] * len(categories)
-})
-
-df_average = pd.DataFrame({
-    'Category': categories,
-    'Value': normalized_average_values,
-    'Type': ['Average'] * len(categories)
-})
-
-# Combine both DataFrames
-df_combined = pd.concat([df_average, df_user])
-
-# Plot radar chart using Plotly
-fig = px.line_polar(
-    df_combined, 
-    r='Value', 
-    theta='Category', 
-    color='Type', 
-    line_close=True
-)
-
-# Customize radar chart appearance
-fig.update_layout(
-    polar=dict(
-        bgcolor="white",  
-        radialaxis=dict(
-            visible=True,
-            range=[0, 1]
-        ),
-        angularaxis=dict(
-            visible=True
-        )
-    ),
-)
-
-# Set fill color for user input and average areas
-fig.update_traces(
-    fill='toself',
-    fillcolor="rgba(180, 180, 180, 0.4)",  
-    line_color="gray",  
-    selector=dict(name="Average")
-)
-
-fig.update_traces(
-    fill='toself',
-    fillcolor="rgba(225, 130, 180, 0.4)",  
-    line_color="red",  
-    selector=dict(name="Your Inputs")
-)
-
-# Display chart
-st.plotly_chart(fig, use_container_width=True)
+# Prediction page
+if sidebar == "Prediction":
+    st.title("Predict Your Grade")
+    
+    if st.session_state.responses:
+        # Step 1: Load the pre-trained scaler and model
+        try:
+            scaler = load('scaler.pkl')  # Load scaler
+            model = load('random_forest_model.pkl')  # Load model
+            
+            # Step 2: Prepare and scale input
+            input_data = np.array([st.session_state.responses])
+            input_scaled = scaler.transform(input_data)
+            
+            # Step 3: Predict grade and probabilities
+            prediction = model.predict(input_scaled)[0]
+            probabilities = model.predict_proba(input_scaled)[0]
+            
+            # Step 4: Grade mapping
+            grade_mapping = {0: 6, 1: 5, 2: 4, 3: 3, 4: 2}
+            predicted_grade = grade_mapping[prediction]
+            
+            # Display results
+            st.subheader(f"Predicted Grade: **{predicted_grade}**")
+            st.write(f"Probability Distribution:")
+            
+            # Step 5: Pie chart for probabilities
+            prob_df = pd.DataFrame({
+                "Grade": [grade_mapping[i] for i in range(len(probabilities))],
+                "Probability": probabilities
+            })
+            fig = px.pie(
+                prob_df, 
+                names='Grade', 
+                values='Probability', 
+                title="Probability Distribution of Predicted Grades",
+                color_discrete_sequence=px.colors.sequential.RdBu
+            )
+            st.plotly_chart(fig, use_container_width=True)
+        
+        except Exception as e:
+            st.error(f"Error loading model or making predictions: {e}")
+    else:
+        st.warning("Please complete the questionnaire first!")
