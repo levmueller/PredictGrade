@@ -61,6 +61,21 @@ if sidebar == "Prediction":
         # Step 1: Load the pre-trained scaler and model
         try:
             scaler = load('scaler.pkl')  # Load scaler
+
+            def reassemble_file(output_file, chunk_files):
+                with open(output_file, 'wb') as output:
+                    for chunk_file in chunk_files:
+                        with open(chunk_file, 'rb') as file:
+                            output.write(file.read())
+
+            chunk_files = [
+                'random_forest_model.pkl.part0',
+                'random_forest_model.pkl.part1',
+                # Add other parts if applicable
+            ]
+            reassemble_file('random_forest_model.pkl', chunk_files)
+                    
+
             model = load('random_forest_model.pkl')  # Load model
             
             # Step 2: Prepare and scale input
