@@ -282,34 +282,38 @@ with col2:
             color_palette = ['#a3f0a3', '#c9f7c9', '#f4e1a1', '#f8b4b4', '#ff7373']  # From light green to pastel red
 
             # Step 8: Output the predictions and probabilities and create pie charts
+            import plotly.graph_objects as go
+
+            # Define the color palette
+            color_palette = ['#a3f0a3', '#c9f7c9', '#f4e1a1', '#f8b4b4', '#ff7373']  # From light green to pastel red
+
+            # Create the pie chart using Plotly
             for i, (prediction, prob) in enumerate(zip(predictions, probabilities)):
 
-                # Map the grade labels in the pie chart (only for labeling)
+                # Map the grade labels
                 mapped_labels = [f'Grade: {grade_mapping[j]}' for j in range(len(prob))]
 
-                fig, ax = plt.subplots(figsize=(2, 2), dpi=300)  # Increase DPI for higher resolution
+                # Create the pie chart
+                fig = go.Figure(data=[go.Pie(
+                    labels=mapped_labels,
+                    values=prob,
+                    textinfo='label+percent',
+                    marker=dict(colors=color_palette),
+                    hoverinfo='label+percent'
+                )])
 
-                wedges, texts, autotexts = ax.pie(
-                    prob, labels=mapped_labels, autopct='%1.1f%%', startangle=140, colors=color_palette,
-                    wedgeprops={'edgecolor': 'gray', 'linewidth': 0.25}  # Adding gray border around each wedge
+                # Update the layout for better aesthetics
+                fig.update_layout(
+                    title=f"Prediction: Grade {grade_mapping[prediction]}",
+                    showlegend=False,
+                    height=300,  # Adjust the height of the chart
+                    width=300,   # Adjust the width of the chart
+                    margin=dict(t=20, b=20, l=20, r=20)  # Set margins for a cleaner look
                 )
 
-                for text in texts + autotexts:
-                    text.set_fontsize(3)  # Adjust font size for the labels and percentage text
+                # Display the Plotly pie chart in Streamlit
+                st.plotly_chart(fig, use_container_width=True)
 
-                # Add a border to the entire pie chart (outside border)
-                ax.add_patch(plt.Circle((0, 0), 1, edgecolor='gray', facecolor='none', lw=0.25))  # Border around pie chart
-
-                # Map the predicted grade using grade_mapping for the title
-                mapped_grade = grade_mapping[prediction]
-
-                # Extract the probability of the predicted class
-                predicted_prob = prob[np.argmax(prob)]  # Correct index for the highest probability class
-
-                # Display prediction text
-
-                # Display the pie chart in Streamlit
-                st.pyplot(fig)  # Display the smaller pie chart in Streamlit
         except Exception as e:
             st.error(f"Error loading model or making predictions: {e}")
     else:
