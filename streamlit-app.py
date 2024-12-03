@@ -132,9 +132,6 @@ if sidebar == "Prediction":
 
             # Step 8: Output the predictions and probabilities and create pie charts
             for i, (prediction, prob) in enumerate(zip(predictions, probabilities)):
-                st.write(f"Sample {i+1}:")
-                st.write(f"Original Predicted Grade: {prediction}")
-                st.write(f"Probabilities for each class: {prob}")
                 
                 # Map the grade labels in the pie chart (only for labeling)
                 mapped_labels = [f'Grade: {grade_mapping[j]}' for j in range(len(prob))]
