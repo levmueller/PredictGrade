@@ -155,6 +155,8 @@ if sidebar == "Prediction":
                 st.write(f"Based on your input, there is a {predicted_prob:.1%} probability that your grade will be a {mapped_grade}.")
 
                 # Display the pie chart in Streamlit
+                fig, ax = plt.subplots(figsize=(4, 4))  # Smaller figure size, 4 inches by 4 inches
+
                 st.pyplot(fig)  # Display the matplotlib figure in Streamlit
 
         except Exception as e:
