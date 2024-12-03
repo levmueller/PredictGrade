@@ -5,12 +5,14 @@ import matplotlib.pyplot as plt
 from joblib import load
 import plotly.express as px
 
+st.set_page_config(layout="wide")
+
 # Sidebar for navigation
 sidebar = st.sidebar.selectbox(
     "Choose a page:",
     ["Home", "Questionnaire"]
 )
-st.set_page_config(layout="wide")
+
 # Session state to track responses
 if 'responses' not in st.session_state:
     st.session_state.responses = []
