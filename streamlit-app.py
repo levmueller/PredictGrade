@@ -232,6 +232,7 @@ with col1:
 with col2:
 
     st.write("Figure 2: Predicted probabilities of grades")
+    st.write(f"Based on your input, there is a {max_prob:.1%} probability that your grade will be a {predicted_grade}.")
 
     if st.session_state.responses:
         try:
@@ -322,4 +323,3 @@ with col2:
     else:
         st.warning("Please complete the questionnaire first!")
 
-st.write(f"Based on your input, there is a {max_prob:.1%} probability that your grade will be a {predicted_grade}.")
