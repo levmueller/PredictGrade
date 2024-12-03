@@ -143,6 +143,9 @@ if sidebar == "Prediction":
                     wedgeprops={'edgecolor': 'gray', 'linewidth': 1.5}  # Adding gray border around each wedge
                 )
 
+                for text in texts + autotexts:
+                    text.set_fontsize(6)  # Adjust font size for the labels and percentage text
+
                 # Add a border to the entire pie chart (outside border)
                 ax.add_patch(plt.Circle((0, 0), 1, edgecolor='lightgray', facecolor='none', lw=2))  # Border around pie chart
 
