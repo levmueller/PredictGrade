@@ -147,7 +147,7 @@ if sidebar == "Prediction":
                     text.set_fontsize(4)  # Adjust font size for the labels and percentage text
 
                 # Add a border to the entire pie chart (outside border)
-                ax.add_patch(plt.Circle((0, 0), 1, edgecolor='lightgray', facecolor='none', lw=2))  # Border around pie chart
+                ax.add_patch(plt.Circle((0, 0), 1, edgecolor='lightgray', facecolor='none', lw=0.5))  # Border around pie chart
 
                 # Map the predicted grade using grade_mapping for the title
                 mapped_grade = grade_mapping[prediction]
