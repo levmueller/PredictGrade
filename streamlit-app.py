@@ -121,9 +121,6 @@ data = response.json()
 # Extract today's date and format it to 'YYYY-MM-DD'
 today_date = data["currentDateTime"].split("T")[0]  # Get the date part
 
-# Display today's date on Streamlit
-st.write(f"Today's date is: {today_date}")
-
 
 st.subheader(f"Report of {today_date}")
 st.write("Below is a comparison of your inputs against the overall average (see Figure 1) and your predicted grade based on your inputs (see Figure 2).")
