@@ -323,7 +323,6 @@ with col2:
         st.warning("Please complete the questionnaire first!")
 
 st.write(f"Based on your input, there is a {max_prob:.1%} chance that your grade will be a {predicted_grade}. This prediction is derived from an extensive analysis of historical performance data.")
-
 import pandas as pd
 import streamlit as st
 
@@ -338,7 +337,5 @@ data = {
 # Convert the data into a DataFrame
 df = pd.DataFrame(data)
 
-# Remove the index and align columns to the left
-st.dataframe(df.style.set_table_styles(
-    [{'selector': 'td', 'props': [('text-align', 'left')]}], hide_index=True)
-)
+# Display the table in Streamlit
+st.table(df)  # You can also use st.dataframe(df) for a more interactive table
