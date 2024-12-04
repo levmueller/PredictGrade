@@ -409,7 +409,7 @@ user_input_values = [
     absences,  # Absences
     support_numeric,  # Parental Support
     tutoring_numeric,  # Tutoring
-    us_gpa,  # GPA
+    performance,  # GPA
     sports,  # Sports
     music,  # Music
     volunteering,  # Volunteering
