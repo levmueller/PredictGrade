@@ -324,3 +324,16 @@ with col2:
 
 st.write(f"Based on your input, there is a {max_prob:.1%} chance that your grade will be a {predicted_grade}. This prediction is derived from an extensive analysis of historical performance data.")
 
+# Feature importances data
+data = {
+    'Feature': ['Age', 'Gender', 'ParentalEducation', 'StudyTimeWeekly', 'Absences', 
+                'Tutoring', 'ParentalSupport', 'Extracurricular', 'Sports', 'Music', 
+                'Volunteering', 'GPA'],
+    'Importance (%)': [4.71, 2.35, 4.61, 6.88, 19.69, 2.68, 6.28, 2.03, 2.01, 1.37, 1.02, 46.36]
+}
+
+# Convert the data into a DataFrame
+df = pd.DataFrame(data)
+
+# Display the table in Streamlit
+st.table(df)  # You can also use st.dataframe(df) for a more interactive table
