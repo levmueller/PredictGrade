@@ -145,17 +145,21 @@ if sidebar == "Questionnaire":
     st.markdown("---")
 
     import requests
-    url = "http://worldclockapi.com/api/json/utc/now"
 
-    response = requests.get(url)
-    if response.status_code == 200:
-        try:
-            data = response.json()
-            today_date = data.get("currentDateTime", "").split("T")[0]
-        except ValueError as e:
-            st.error("Error decoding JSON response. Please check the API response format.")
-    else:
-        st.error(f"Failed to fetch data from API. Status code: {response.status_code}")
+    url = "http://worldtimeapi.org/api/timezone/Etc/UTC"
+
+    try:
+        response = requests.get(url)
+        response.raise_for_status()  # Raise an HTTPError for bad responses
+        data = response.json()
+        today_date = data.get("datetime", "").split("T")[0]
+
+
+    except requests.RequestException as e:
+        print(f"An error occurred while fetching the date: {e}")
+    except ValueError:
+        print("Error decoding JSON response. Please check the API response format.")
+
 
 
 
