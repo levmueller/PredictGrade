@@ -108,6 +108,8 @@ if st.button("Submit"):
 
 st.markdown("---")
 
+import requests
+
 # API URL to get today's date
 url = "http://worldclockapi.com/api/json/utc/now"
 
