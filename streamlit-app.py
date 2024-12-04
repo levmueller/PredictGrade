@@ -124,6 +124,8 @@ today_date = data["currentDateTime"].split("T")[0]  # Get the date part
 
 st.subheader(f"Report of {today_date}")
 st.write("Below is a comparison of your inputs against the overall average (see Figure 1) and your predicted grade based on your inputs (see Figure 2).")
+st.write("")
+st.write("")
 # Create two columns
 col1, col2 = st.columns(2)
 
