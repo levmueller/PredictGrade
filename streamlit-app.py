@@ -145,17 +145,18 @@ if sidebar == "Questionnaire":
     st.markdown("---")
 
     import requests
-    import streamlit as st
-
-    # API URL to get today's date
     url = "http://worldclockapi.com/api/json/utc/now"
 
-    # Fetch the response
     response = requests.get(url)
-    data = response.json()
+    if response.status_code == 200:
+        try:
+            data = response.json()
+            today_date = data.get("currentDateTime", "").split("T")[0]
+        except ValueError as e:
+            st.error("Error decoding JSON response. Please check the API response format.")
+    else:
+        st.error(f"Failed to fetch data from API. Status code: {response.status_code}")
 
-    # Extract today's date and format it to 'YYYY-MM-DD'
-    today_date = data["currentDateTime"].split("T")[0]  # Get the date part
 
 
     st.subheader(f"Report of {today_date}")
