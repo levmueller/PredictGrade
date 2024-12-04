@@ -406,7 +406,7 @@ if sidebar == "Questionnaire":
                 probabilities = model.predict_proba(new_data_scaled)
 
                 # Step 6: Mapping grades to new values: 0 -> 6, 1 -> 5, 2 -> 4, 3 -> 3, 4 -> 2
-                grade_mapping = {0: 6, 1: 5, 2: 4, 3: 3, 4: 2}
+                grade_mapping = {0: "5.5-6", 1: "4.5-5", 2: 4, 3: 3, 4: 2}
 
                 # Step 7: Custom color palette: white -> gray -> red
                 color_palette = ['#a3f0a3', '#c9f7c9', '#f4e1a1', '#f8b4b4', '#ff7373']  # From light green to pastel red
