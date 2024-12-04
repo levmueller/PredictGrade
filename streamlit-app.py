@@ -477,4 +477,6 @@ with col4:
 
 st.write(f"Based on the provided inputs, the model predicts a {max_prob:.1%} likelihood that your grade will be {predicted_grade}. This prediction is derived from an extensive analysis of historical performance data. Our tests show that the model achieves an accuracy of 91.02%, indicating a strong ability to predict outcomes reliably.")
 
+st.markdown("<h5 style='font-size: 20px;'>Areas for Improvement</h5>", unsafe_allow_html=True)
+
 st.write("Each feature contributes differently to predicting your grade. Focus on improving the most impactful ones for better results. Based on your input, we recommend you do the following:")
