@@ -110,6 +110,7 @@ with col1:
 with col2:
     # Add a small margin to ensure the button aligns with the input field
     st.write("")  # Add empty line to provide some spacing
+    st.write("")  # Add empty line to provide some spacing
     if st.button("Submit"):
         if email:
             st.write(f"Thank you for submitting your email: {email}")
