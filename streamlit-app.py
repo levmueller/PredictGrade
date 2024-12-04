@@ -458,6 +458,7 @@ with col3:
 
 
 with col4: 
+    st.write("Table 2: Feature importance")
     # Feature importances data
     data = {
         'Feature': ['Age', 'Gender', 'ParentalEducation', 'StudyTimeWeekly', 'Absences', 
