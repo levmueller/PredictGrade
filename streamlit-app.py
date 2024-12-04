@@ -323,10 +323,6 @@ with col2:
         st.warning("Please complete the questionnaire first!")
 
 st.write(f"Based on your input, there is a {max_prob:.1%} chance that your grade will be a {predicted_grade}. This prediction is derived from an extensive analysis of historical performance data.")
-import pandas as pd
-import streamlit as st
-import pandas as pd
-import streamlit as st
 
 # Feature importances data
 data = {
