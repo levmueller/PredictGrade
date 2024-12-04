@@ -255,7 +255,6 @@ with col1:
 # Second column: Additional content or prediction
 with col2:
 
-
     import pandas as pd
     import streamlit as st
 
@@ -318,6 +317,13 @@ with col2:
     # Display the differences in a table on Streamlit
     st.table(df_differences)
 
+st.write(f"Based on your input, there is a {max_prob:.1%} chance that your grade will be a {predicted_grade}. This prediction is derived from an extensive analysis of historical performance data. Our tests show that the model achieves an accuracy of 91.02%, indicating a strong ability to predict outcomes reliably.")
+
+
+
+col3, col4 = st.columns(2)
+
+with col3:
     st.write("Figure 2: Predicted probabilities of grades")
 
     if st.session_state.responses:
@@ -409,21 +415,21 @@ with col2:
     else:
         st.warning("Please complete the questionnaire first!")
 
-st.write(f"Based on your input, there is a {max_prob:.1%} chance that your grade will be a {predicted_grade}. This prediction is derived from an extensive analysis of historical performance data. Our tests show that the model achieves an accuracy of 91.02%, indicating a strong ability to predict outcomes reliably.")
 
-# Feature importances data
-data = {
-    'Feature': ['Age', 'Gender', 'ParentalEducation', 'StudyTimeWeekly', 'Absences', 
-                'Tutoring', 'ParentalSupport', 'Extracurricular', 'Sports', 'Music', 
-                'Volunteering', 'GPA'],
-    'Importance (%)': [4.71, 2.35, 4.61, 6.88, 19.69, 2.68, 6.28, 2.03, 2.01, 1.37, 1.02, 46.36]
-}
+with col4: 
+    # Feature importances data
+    data = {
+        'Feature': ['Age', 'Gender', 'ParentalEducation', 'StudyTimeWeekly', 'Absences', 
+                    'Tutoring', 'ParentalSupport', 'Extracurricular', 'Sports', 'Music', 
+                    'Volunteering', 'GPA'],
+        'Importance (%)': [4.71, 2.35, 4.61, 6.88, 19.69, 2.68, 6.28, 2.03, 2.01, 1.37, 1.02, 46.36]
+    }
 
-# Convert the data into a DataFrame
-df = pd.DataFrame(data)
+    # Convert the data into a DataFrame
+    df = pd.DataFrame(data)
 
-# Sort the DataFrame by 'Importance (%)' in descending order
-df_sorted = df.sort_values(by='Importance (%)', ascending=False)
+    # Sort the DataFrame by 'Importance (%)' in descending order
+    df_sorted = df.sort_values(by='Importance (%)', ascending=False)
 
 # Display the table in Streamlit without the index
 
