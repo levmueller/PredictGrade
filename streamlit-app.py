@@ -365,5 +365,17 @@ df_sorted = df.sort_values(by='Importance (%)', ascending=False)
 # Display the table in Streamlit without the index
 
 # Display the sorted table in Streamlit
+
+differences = [user_input_values[i] - average_values[i] for i in range(len(user_input_values))]
+
+# Create a DataFrame for displaying the differences
+df_differences = pd.DataFrame({
+    "Feature": categories,
+    "Difference from Average": differences
+})
+
+# Display the differences in a table on Streamlit
+st.dataframe(df_differences)
+
 st.write("Each feature contributes differently to predicting your grade. Focus on improving the most impactful ones for better results.")
 st.table(df_sorted.set_index('Feature'))  # Set 'Feature' as the index and remove default index display
