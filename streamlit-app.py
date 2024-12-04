@@ -263,8 +263,8 @@ with col2:
 
     import pandas as pd
     import streamlit as st
+    st.write("Table 1: Differences between inputs and average values")
 
-    st.write("Table 1: Difference inputs vs. average")
     # Average values (replace with your actual average values)
     average_values = [
         16.46864548,  # Age
