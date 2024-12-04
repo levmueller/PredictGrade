@@ -426,7 +426,7 @@ df_differences = pd.DataFrame({
 })
 
 # Display the differences in a table on Streamlit
-st.dataframe(df_differences)
+st.table(df_differences)
 
 
 st.write("Each feature contributes differently to predicting your grade. Focus on improving the most impactful ones for better results.")
