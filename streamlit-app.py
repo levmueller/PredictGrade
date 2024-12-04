@@ -124,11 +124,11 @@ if st.button("Submit"):
             
             # Check for a 'status' key (this may differ depending on the API)
             if "status" in data and data["status"] == "valid":
-                print(f"The email {email_to_validate} is valid.")
+                st.write(f"The email {email_to_validate} is valid.")
             else:
-                print(f"The email {email_to_validate} is invalid or the response structure is unexpected.")
+                st.write(f"The email {email_to_validate} is invalid or the response structure is unexpected.")
         else:
-            print(f"Failed to retrieve data: {response.status_code}")
+            st.write(f"Failed to retrieve data: {response.status_code}")
 
 
     else:
