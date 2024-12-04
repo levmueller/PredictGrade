@@ -326,6 +326,9 @@ st.write(f"Based on your input, there is a {max_prob:.1%} chance that your grade
 import pandas as pd
 import streamlit as st
 
+import pandas as pd
+import streamlit as st
+
 # Feature importances data
 data = {
     'Feature': ['Age', 'Gender', 'ParentalEducation', 'StudyTimeWeekly', 'Absences', 
@@ -340,6 +343,10 @@ df = pd.DataFrame(data)
 # Sort the DataFrame by 'Importance (%)' in descending order
 df_sorted = df.sort_values(by='Importance (%)', ascending=False)
 
+# Display the table in Streamlit without the index
+st.dataframe(df_sorted.style.hide(axis="index"))
+
+
 # Display the sorted table in Streamlit
-st.write("Each ")
+st.write("Each feature contributes differently to predicting your grade. Focus on improving the most impactful ones for better results.")
 st.table(df_sorted)  # You can also use st.dataframe(df_sorted) for a more interactive table
