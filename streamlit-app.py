@@ -338,4 +338,5 @@ data = {
 df = pd.DataFrame(data)
 
 # Display the table in Streamlit
-st.table(df)  # You can also use st.dataframe(df) for a more interactive table
+st.write(f"Based on your input, there is a {max_prob:.1%} chance that your grade will be a {predicted_grade}. This prediction is derived from an extensive analysis of historical performance data.")
+st.dataframe(df)  # You can also use st.dataframe(df) for a more interactive table
