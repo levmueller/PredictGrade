@@ -338,5 +338,7 @@ data = {
 # Convert the data into a DataFrame
 df = pd.DataFrame(data)
 
-# Use Streamlit to display the DataFrame with left alignment and hide the index
-st.dataframe(df.style.set_properties(**{'text-align': 'left'}), use_container_width=True)
+# Remove the index and align columns to the left
+st.dataframe(df.style.set_table_styles(
+    [{'selector': 'td', 'props': [('text-align', 'left')]}], hide_index=True)
+)
