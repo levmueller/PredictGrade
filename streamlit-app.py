@@ -109,20 +109,27 @@ if st.button("Submit"):
         # Email to validate
         email_to_validate = email
 
-        # Email Verifier API URL
+        # Email Verifier API URL (adjust this based on the API you're using)
         url = f"https://api.email-verifier.io/v2/verify?email={email_to_validate}"
 
         # Make a GET request to validate the email
         response = requests.get(url)
 
-        # Check the response
-        data = response.json()
-
-        # If the email is valid
-        if data["status"] == "valid":
-            st.write(f"The email {email_to_validate} is valid.")
+        # Check if the response was successful
+        if response.status_code == 200:
+            data = response.json()
+            
+            # Print the data to debug the structure
+            print("Response Data:", data)
+            
+            # Check for a 'status' key (this may differ depending on the API)
+            if "status" in data and data["status"] == "valid":
+                print(f"The email {email_to_validate} is valid.")
+            else:
+                print(f"The email {email_to_validate} is invalid or the response structure is unexpected.")
         else:
-            st.write(f"The email {email_to_validate} is invalid.")
+            print(f"Failed to retrieve data: {response.status_code}")
+
 
     else:
         st.write("Please enter an email address.")
