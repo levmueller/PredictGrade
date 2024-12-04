@@ -324,6 +324,9 @@ with col2:
 
 st.write(f"Based on your input, there is a {max_prob:.1%} chance that your grade will be a {predicted_grade}. This prediction is derived from an extensive analysis of historical performance data.")
 
+import pandas as pd
+import streamlit as st
+
 # Feature importances data
 data = {
     'Feature': ['Age', 'Gender', 'ParentalEducation', 'StudyTimeWeekly', 'Absences', 
@@ -335,7 +338,5 @@ data = {
 # Convert the data into a DataFrame
 df = pd.DataFrame(data)
 
-# Remove the index and align columns to the left
-st.dataframe(df.style.set_table_styles(
-    [{'selector': 'td', 'props': [('text-align', 'left')]}], hide_index=True)
-)
+# Use Streamlit to display the DataFrame with left alignment and hide the index
+st.dataframe(df.style.set_properties(**{'text-align': 'left'}), use_container_width=True)
