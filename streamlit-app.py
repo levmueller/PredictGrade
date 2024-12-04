@@ -97,6 +97,19 @@ st.markdown("---")
 st.title("Analysis of Results")
 st.write("Below is a comparison of your inputs against the overall average (see Figure 1) and your predicted grade based on your inputs (see Figure 2).")
 
+# Display the email input field
+email = st.text_input("Enter your email address:")
+
+# Display the button
+if st.button("Submit"):
+    if email:
+        st.write(f"Thank you for submitting your email: {email}")
+    else:
+        st.write("Please enter a valid email address.")
+
+
+
+
 st.markdown("---")
 
 
