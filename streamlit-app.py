@@ -109,7 +109,7 @@ if st.button("Submit"):
 
 st.markdown("---")
 
-st.title("Report")
+st.subtitle("Report")
 # Create two columns
 col1, col2 = st.columns(2)
 
