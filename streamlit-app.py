@@ -103,33 +103,31 @@ email = st.text_input("Please enter your email address to save your report.")
 if st.button("Submit"):
     if email:
 
-
         import requests
 
         # Email to validate
         email_to_validate = email
 
-        # Email Verifier API URL (adjust this based on the API you're using)
-        url = f"https://api.email-verifier.io/v2/verify?email={email_to_validate}"
+        # URL for the Abstract API with your API key
+        url = f"https://emailvalidation.abstractapi.com/v1/?api_key=c8794cf163b34c2fa6fca46468948bcc&email={email_to_validate}"
 
-        # Make a GET request to validate the email
+        # Make the GET request to the Abstract API
         response = requests.get(url)
 
-        # Check if the response was successful
+        # Check the status code and response content
         if response.status_code == 200:
             data = response.json()
-            
-            # Print the data to debug the structure
+            # Print the response JSON
             print("Response Data:", data)
-            
-            # Check for a 'status' key (this may differ depending on the API)
-            if "status" in data and data["status"] == "valid":
+
+            # Check if the email is valid based on Abstract API response
+            if data["is_valid"]:
                 st.write(f"The email {email_to_validate} is valid.")
             else:
-                st.write(f"The email {email_to_validate} is invalid or the response structure is unexpected.")
+                st.write(f"The email {email_to_validate} is invalid.")
         else:
             st.write(f"Failed to retrieve data: {response.status_code}")
-
+            st.write("Response Content:", response.content)
 
     else:
         st.write("Please enter an email address.")
