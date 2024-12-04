@@ -58,7 +58,7 @@ if sidebar == "Questionnaire":
     st.subheader("Extracurricular Activities")
     activities = st.multiselect(
         "7. Which activities do you participate in?",
-        ["Sports", "Music", "Volunteering", "Extracurricular Activities"]
+        ["Sports", "Music", "Volunteering", "Other Extracurricular Activities (Theatre, Arts, etc.)"]
     )
     sports = int("Sports" in activities)
     music = int("Music" in activities)
