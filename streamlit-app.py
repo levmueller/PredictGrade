@@ -129,6 +129,9 @@ st.write("")
 # Create two columns
 col1, col2 = st.columns(2)
 
+st.markdown("<h5 style='font-size: 20px;'>Deviation From Averages</h5>", unsafe_allow_html=True)
+
+
 # First column: Visualization
 with col1:
 
