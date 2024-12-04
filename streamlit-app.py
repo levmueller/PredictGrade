@@ -255,6 +255,69 @@ with col1:
 # Second column: Additional content or prediction
 with col2:
 
+
+    import pandas as pd
+    import streamlit as st
+
+    # Average values (replace with your actual average values)
+    average_values = [
+        16.46864548,  # Age
+        1.746237458,  # Parental Education
+        9.771991919,  # Weekly Study Time
+        14.54138796,  # Absences
+        2.122074,     # Parental Support
+        0.301421,     # Tutoring
+        4,            # GPA
+        0.303512,     # Sports
+        0.196906,     # Music
+        0.157191,     # Volunteering
+        0.383361      # Extracurricular Activities
+    ]
+
+    # Categories corresponding to the average values
+    categories = [
+        "Age", 
+        "Parental Education", 
+        "Weekly Study Time", 
+        "Absences", 
+        "Parental Support",
+        "Tutoring",
+        "GPA",
+        "Sports",
+        "Music",
+        "Volunteering",
+        "Extracurricular Activities"
+    ]
+
+    # Assuming `age`, `parental_degree_numeric`, `average_time`, etc. are defined elsewhere in your code
+
+    # Example inputs (replace with actual values from your user input)
+    user_input_values = [
+        age,  # Age
+        parental_degree_numeric,  # Parental Education
+        average_time,  # Weekly Study Time
+        absences,  # Absences
+        support_numeric,  # Parental Support
+        tutoring_numeric,  # Tutoring
+        performance,  # GPA
+        sports,  # Sports
+        music,  # Music
+        volunteering,  # Volunteering
+        extracurricular  # Extracurricular Activities
+    ]
+
+    # Calculate the differences from the average
+    differences = [user_input_values[i] - average_values[i] for i in range(len(user_input_values))]
+
+    # Create a DataFrame for displaying the differences
+    df_differences = pd.DataFrame({
+        "Feature": categories,
+        "Difference from Average": differences
+    })
+
+    # Display the differences in a table on Streamlit
+    st.table(df_differences)
+
     st.write("Figure 2: Predicted probabilities of grades")
 
     if st.session_state.responses:
@@ -364,69 +427,6 @@ df_sorted = df.sort_values(by='Importance (%)', ascending=False)
 
 # Display the table in Streamlit without the index
 
-# Display the sorted table in Streamlit
-
-import pandas as pd
-import streamlit as st
-
-# Average values (replace with your actual average values)
-average_values = [
-    16.46864548,  # Age
-    1.746237458,  # Parental Education
-    9.771991919,  # Weekly Study Time
-    14.54138796,  # Absences
-    2.122074,     # Parental Support
-    0.301421,     # Tutoring
-    4,            # GPA
-    0.303512,     # Sports
-    0.196906,     # Music
-    0.157191,     # Volunteering
-    0.383361      # Extracurricular Activities
-]
-
-# Categories corresponding to the average values
-categories = [
-    "Age", 
-    "Parental Education", 
-    "Weekly Study Time", 
-    "Absences", 
-    "Parental Support",
-    "Tutoring",
-    "GPA",
-    "Sports",
-    "Music",
-    "Volunteering",
-    "Extracurricular Activities"
-]
-
-# Assuming `age`, `parental_degree_numeric`, `average_time`, etc. are defined elsewhere in your code
-
-# Example inputs (replace with actual values from your user input)
-user_input_values = [
-    age,  # Age
-    parental_degree_numeric,  # Parental Education
-    average_time,  # Weekly Study Time
-    absences,  # Absences
-    support_numeric,  # Parental Support
-    tutoring_numeric,  # Tutoring
-    performance,  # GPA
-    sports,  # Sports
-    music,  # Music
-    volunteering,  # Volunteering
-    extracurricular  # Extracurricular Activities
-]
-
-# Calculate the differences from the average
-differences = [user_input_values[i] - average_values[i] for i in range(len(user_input_values))]
-
-# Create a DataFrame for displaying the differences
-df_differences = pd.DataFrame({
-    "Feature": categories,
-    "Difference from Average": differences
-})
-
-# Display the differences in a table on Streamlit
-st.table(df_differences)
 
 
 st.write("Each feature contributes differently to predicting your grade. Focus on improving the most impactful ones for better results.")
