@@ -325,7 +325,6 @@ with col2:
 st.write(f"Based on your input, there is a {max_prob:.1%} chance that your grade will be a {predicted_grade}. This prediction is derived from an extensive analysis of historical performance data.")
 import pandas as pd
 import streamlit as st
-
 import pandas as pd
 import streamlit as st
 
@@ -344,7 +343,7 @@ df = pd.DataFrame(data)
 df_sorted = df.sort_values(by='Importance (%)', ascending=False)
 
 # Display the table in Streamlit without the index
-st.dataframe(df_sorted.style.hide(axis="index"))
+st.table(df_sorted.set_index('Feature'))  # Set 'Feature' as the index and remove default index display
 
 
 # Display the sorted table in Streamlit
