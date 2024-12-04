@@ -335,5 +335,7 @@ data = {
 # Convert the data into a DataFrame
 df = pd.DataFrame(data)
 
-# Display the table in Streamlit
-st.table(df)  # You can also use st.dataframe(df) for a more interactive table
+# Remove the index and align columns to the left
+st.dataframe(df.style.set_table_styles(
+    [{'selector': 'td', 'props': [('text-align', 'left')]}], hide_index=True)
+)
