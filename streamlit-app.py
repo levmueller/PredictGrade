@@ -123,9 +123,9 @@ if sidebar == "Questionnaire":
                 try:
                     sg = SendGridAPIClient('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')
                     response = sg.send(message)
-                    print(f"E-Mail erfolgreich gesendet! Status Code: {response.status_code}")
+                    st.write(f"E-Mail erfolgreich gesendet! Status Code: {response.status_code}")
                 except Exception as e:
-                    print(f"Fehler beim Senden der E-Mail: {e}")
+                    st.write(f"Fehler beim Senden der E-Mail: {e}")
             
             # Mail wird gesendet, indem die Funktion aufgerufen wird
             send_email(email, 5.5)
