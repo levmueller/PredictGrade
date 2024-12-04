@@ -1,3 +1,5 @@
+import streamlit as st
+
 st.title("Questionnaire")
 st.write("Please answer the following questions to calculate your expected grade.")
 
