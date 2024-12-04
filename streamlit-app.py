@@ -315,7 +315,7 @@ with col2:
     })
 
     # Display the differences in a table on Streamlit
-    st.table(df_differences)
+    st.table(df_differences.set_index('Feature'))
 
 st.markdown("<h5 style='font-size: 20px;'>Grade Prediction</h5>", unsafe_allow_html=True)
 
