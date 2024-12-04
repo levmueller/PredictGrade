@@ -106,7 +106,7 @@ if st.button("Submit"):
         import requests
 
         # Email to validate
-        email_to_validate = "auspoke111@gmail.com"
+        email_to_validate = email
 
         # URL for the Abstract API with your API key
         url = f"https://emailvalidation.abstractapi.com/v1/?api_key=c8794cf163b34c2fa6fca46468948bcc&email={email_to_validate}"
@@ -116,28 +116,18 @@ if st.button("Submit"):
 
         # Check the status code and response content
         if response.status_code == 200:
-            try:
-                # Parse the response JSON
-                data = response.json()
+            data = response.json()
+            # Print the response JSON
+            print("Response Data:", data)
 
-                # Print the entire response to debug
-                print("Response Data:", data)
-
-                # Check if the necessary fields for validation are present
-                if (data["is_valid_format"]["value"] and
-                    data["is_mx_found"]["value"] and
-                    data["is_smtp_valid"]["value"]):
-                    st.write(f"The email {email_to_validate} is valid.")
-                else:
-                    st.write(f"The email {email_to_validate} is invalid.")
-            
-            except ValueError as e:
-                st.write("Failed to parse JSON response:", e)
-                st.write("Response Content:", response.content)
+            # Check if the email is valid based on Abstract API response
+            if data["is_valid"]:
+                st.write(f"The email {email_to_validate} is valid.")
+            else:
+                st.write(f"The email {email_to_validate} is invalid.")
         else:
             st.write(f"Failed to retrieve data: {response.status_code}")
             st.write("Response Content:", response.content)
-
 
     else:
         st.write("Please enter an email address.")
