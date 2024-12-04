@@ -103,41 +103,32 @@ if sidebar == "Questionnaire":
     if st.button("Submit"):
         if email:
 
-            import requests
-
-            # Email to validate
-            email_to_validate = email
-
-            # URL for the Abstract API with your API key
-            url = f"https://emailvalidation.abstractapi.com/v1/?api_key=c8794cf163b34c2fa6fca46468948bcc&email={email_to_validate}"
-
-            # Make the GET request to the Abstract API
-            response = requests.get(url)
-
-            # Check the status code and response content
-            if response.status_code == 200:
+            import os
+            from sendgrid import SendGridAPIClient
+            from sendgrid.helpers.mail import Mail
+            
+            # SendGrid API-Key
+            SENDGRID_API_KEY = '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'  # Auf SendGrid generierter API-Key
+            
+            # Funktion, um eine E-Mail zu senden
+            def send_email(user_email, note):
+                message = Mail(
+                    from_email='gradeboostapp@gmail.com',  # Absenderadresse
+                    to_emails=user_email,
+                    subject='Deine prognostizierte Note',
+                    html_content=f'''<strong>Deine prognostizierte Note beträgt: {note}</strong>
+                                <br><br>
+                                Danke, dass du GradeBoost🚀 nutzt!'''
+                )
                 try:
-                    # Parse the response JSON
-                    data = response.json()
-
-                    # Print the entire response to debug
-                    print("Response Data:", data)
-
-                    # Check if the necessary fields for validation are present
-                    if (data["is_valid_format"]["value"] and
-                        data["is_mx_found"]["value"] and
-                        data["is_smtp_valid"]["value"]):
-                        st.write(f"The email {email_to_validate} is valid.")
-                    else:
-                        st.write(f"The email {email_to_validate} is invalid.")
-                
-                except ValueError as e:
-                    st.write("Failed to parse JSON response:", e)
-                    st.write("Response Content:", response.content)
-            else:
-                st.write(f"Failed to retrieve data: {response.status_code}")
-                st.write("Response Content:", response.content)
-
+                    sg = SendGridAPIClient('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')
+                    response = sg.send(message)
+                    print(f"E-Mail erfolgreich gesendet! Status Code: {response.status_code}")
+                except Exception as e:
+                    print(f"Fehler beim Senden der E-Mail: {e}")
+            
+            # Mail wird gesendet, indem die Funktion aufgerufen wird
+            send_email(email, 5.5)
 
         else:
             st.write("Please enter an email address.")
@@ -482,3 +473,4 @@ if sidebar == "Questionnaire":
     # Display the table in Streamlit without the index
 
     st.write(f"Based on the provided inputs, the model predicts a {max_prob:.1%} likelihood that your grade will be {predicted_grade}. This prediction is derived from an extensive analysis of historical performance data. Each feature contributes differently to predicting your grade. Focus on improving the most impactful ones for better results. Our tests show that the model achieves an accuracy of 91.02%, indicating a strong ability to predict outcomes reliably.")
+
