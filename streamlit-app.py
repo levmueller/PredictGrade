@@ -102,9 +102,30 @@ email = st.text_input("Please enter your email address to save your report.")
 # Display the button
 if st.button("Submit"):
     if email:
-        st.write(f"Thank you for submitting your email: {email}")
+
+
+        import requests
+
+        # Email to validate
+        email_to_validate = email
+
+        # Email Verifier API URL
+        url = f"https://api.email-verifier.io/v2/verify?email={email_to_validate}"
+
+        # Make a GET request to validate the email
+        response = requests.get(url)
+
+        # Check the response
+        data = response.json()
+
+        # If the email is valid
+        if data["status"] == "valid":
+            st.write(f"The email {email_to_validate} is valid.")
+        else:
+            st.write(f"The email {email_to_validate} is invalid.")
+
     else:
-        st.write("Please enter a valid email address.")
+        st.write("Please enter an email address.")
 
 st.markdown("---")
 
