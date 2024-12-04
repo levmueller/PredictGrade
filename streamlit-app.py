@@ -317,9 +317,6 @@ with col2:
     # Display the differences in a table on Streamlit
     st.table(df_differences)
 
-st.write(f"Based on your input, there is a {max_prob:.1%} chance that your grade will be a {predicted_grade}. This prediction is derived from an extensive analysis of historical performance data. Our tests show that the model achieves an accuracy of 91.02%, indicating a strong ability to predict outcomes reliably.")
-
-
 
 col3, col4 = st.columns(2)
 
@@ -434,6 +431,7 @@ with col4:
 # Display the table in Streamlit without the index
 
 
+st.write(f"Based on your input, there is a {max_prob:.1%} chance that your grade will be a {predicted_grade}. This prediction is derived from an extensive analysis of historical performance data. Our tests show that the model achieves an accuracy of 91.02%, indicating a strong ability to predict outcomes reliably.")
 
 st.write("Each feature contributes differently to predicting your grade. Focus on improving the most impactful ones for better results.")
 st.table(df_sorted.set_index('Feature'))  # Set 'Feature' as the index and remove default index display
