@@ -317,7 +317,7 @@ with col2:
     # Display the differences in a table on Streamlit
     st.table(df_differences)
 
-st.markdown("Grade Prediction")
+st.markdown("<h5 style='font-size: 20px;'>Grade Prediction</h5>", unsafe_allow_html=True)
 
 col3, col4 = st.columns(2)
 
