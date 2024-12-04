@@ -95,7 +95,6 @@ st.markdown("---")
 
 
 st.title("Analysis of Results")
-st.write("Below is a comparison of your inputs against the overall average (see Figure 1) and your predicted grade based on your inputs (see Figure 2).")
 
 # Display the email input field
 email = st.text_input("Please enter your email address to receive your report.")
@@ -110,6 +109,7 @@ if st.button("Submit"):
 st.markdown("---")
 
 st.subheader("Report")
+st.write("Below is a comparison of your inputs against the overall average (see Figure 1) and your predicted grade based on your inputs (see Figure 2).")
 # Create two columns
 col1, col2 = st.columns(2)
 
