@@ -97,7 +97,7 @@ st.markdown("---")
 st.title("Analysis of Results")
 
 # Display the email input field
-email = st.text_input("Please enter your email address to receive your report.")
+email = st.text_input("Please enter your email address to save your report.")
 
 # Display the button
 if st.button("Submit"):
