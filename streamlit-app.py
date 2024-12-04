@@ -108,7 +108,17 @@ if st.button("Submit"):
 
 st.markdown("---")
 
-st.subheader("Report")
+# API URL to get today's date
+url = "http://worldclockapi.com/api/json/utc/now"
+
+# Fetch the response
+response = requests.get(url)
+data = response.json()
+
+# Extract today's date
+today_date = data["currentDateTime"]
+
+st.subheader(f"Report of {today_date}")
 st.write("Below is a comparison of your inputs against the overall average (see Figure 1) and your predicted grade based on your inputs (see Figure 2).")
 # Create two columns
 col1, col2 = st.columns(2)
