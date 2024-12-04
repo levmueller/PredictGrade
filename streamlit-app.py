@@ -481,4 +481,4 @@ st.write(f"Based on the provided inputs, the model predicts a {max_prob:.1%} lik
 st.write("")
 st.markdown("<h5 style='font-size: 20px;'>Areas for Improvement</h5>", unsafe_allow_html=True)
 
-st.write("Each feature contributes differently to predicting your grade. Focus on improving the most impactful ones for better results. Based on your input, we recommend you do the following:")
+st.write("Each feature contributes differently to predicting your grade. Focus on improving the most impactful ones for better results.")
