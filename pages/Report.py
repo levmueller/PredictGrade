@@ -93,6 +93,17 @@ with col1:
     # Average values for comparison (you can adjust these based on your data)
     average_values = [16.46864548, 1.746237458, 9.771991919, 14.54138796, 2.122074, 0.301421, 4, 0.303512, 0.196906, 0.157191, 0.383361]
 
+    if st.session_state.responses:
+        try:
+            # Retrieve responses from session state
+            age, gender_numeric, parental_degree_numeric, average_time, absences, tutoring_numeric, support_numeric, extracurricular, sports, music, volunteering, performance = st.session_state.responses
+        except ValueError:
+            # Handle error if unpacking fails (e.g., the list doesn't have 12 elements)
+            st.write("Error: Incorrect number of responses or malformed data.")
+    else:
+        st.write("Please fill out the questionnaire first.")
+
+
     # User's values based on their inputs
     user_values = [age, parental_degree_numeric, average_time, absences, support_numeric, tutoring_numeric, performance, sports, music, volunteering, extracurricular]
 
@@ -242,14 +253,7 @@ with col3:
     if st.session_state.responses:
         try:
             # Retrieve responses from session state
-            # Ensure the list has the expected number of elements before unpacking
-            if len(st.session_state.responses) == 12:
-                age, gender_numeric, parental_degree_numeric, average_time, absences, \
-                tutoring_numeric, support_numeric, extracurricular, sports, music, \
-                volunteering, performance = st.session_state.responses
-            else:
-                st.error("Error: Incorrect number of responses.")
-
+            age, gender_numeric, parental_degree_numeric, average_time, absences, tutoring_numeric, support_numeric, extracurricular, sports, music, volunteering, performance = st.session_state.responses
 
             def swiss_to_us_gpa(swiss_grade):
                 return 2 + ((swiss_grade - 1) / 5) * 2
