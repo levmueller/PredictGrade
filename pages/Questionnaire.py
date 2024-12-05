@@ -57,6 +57,5 @@ st.session_state.responses = [
     support_numeric, extracurricular, sports, music, volunteering, performance
 ]
 
-
 if st.button("Get results"):
     switch_page("Report")
