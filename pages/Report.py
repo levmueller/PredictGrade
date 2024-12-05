@@ -382,7 +382,7 @@ if st.button("Submit"):
         from sendgrid.helpers.mail import Mail
         
         # SendGrid API-Key
-        SENDGRID_API_KEY = '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'  # Auf SendGrid generierter API-Key
+        SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")  # Auf SendGrid generierter API-Key
         
         # Funktion, um eine E-Mail zu senden
         def send_email(user_email, note):
@@ -395,7 +395,7 @@ if st.button("Submit"):
                             Danke, dass du GradeBoost🚀 nutzt!'''
             )
             try:
-                sg = SendGridAPIClient('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')
+                sg = SendGridAPIClient(SENDGRID_API_KEY)
                 response = sg.send(message)
                 st.write(f"E-Mail erfolgreich gesendet! Status Code: {response.status_code}")
             except Exception as e:
