@@ -6,6 +6,8 @@ import plotly.express as px
 from joblib import load
 
 
+st.set_page_config(page_title="Report", layout="wide")
+
 st.title("Analysis of Results")
 
 # Display the email input field

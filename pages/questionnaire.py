@@ -1,5 +1,8 @@
 import streamlit as st
 
+
+st.set_page_config(page_title="Questionnaire", layout="wide")
+
 st.title("Questionnaire")
 st.write("Please answer the following questions to calculate your expected grade.")
 
