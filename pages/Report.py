@@ -392,7 +392,7 @@ if st.button("Submit"):
                             Danke, dass du GradeBoost🚀 nutzt!'''
             )
             try:
-                sg = SendGridAPIClient(os.getenv("MAIL_API"))
+                sg = SendGridAPIClient(SENDGRID_API_KEY)
                 response = sg.send(message)
                 st.write(f"E-Mail erfolgreich gesendet! Status Code: {response.status_code}")
             except Exception as e:
