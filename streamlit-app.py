@@ -20,3 +20,7 @@ st.markdown("""
 *We warmly welcome you to our website. Enter relevant factors and calculate your provisional grade for the semester.*
 *Good luck! 🍀*
 """)
+
+
+if st.button("Go to Questionnaire"):
+    switch_page("questionnaire")
