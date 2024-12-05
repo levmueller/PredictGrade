@@ -4,7 +4,8 @@ from streamlit_extras.switch_page_button import switch_page
 st.set_page_config(page_title="Questionnaire", layout="wide")
 
 st.title("Questionnaire")
-st.write("Please answer the following questions to calculate your expected grade.")
+st.write("To calculate your grade for the upcoming semester, please complete the questionnaire.")
+st.write("The questionnaire is divided into the followin four sections: Personal Information, Academic Information, Activities, Parental Support & Education.")
 
 st.markdown("---")
 
