@@ -20,6 +20,9 @@ st.markdown("""
 *Good luck! 🍀*
 """)
 
-# Navigate to Page 1 when the button is clicked
-if st.button("Go to Page 1"):
-    st.experimental_set_query_params(page="questionnaire")
+#switching to next page
+from streamlit_extras.switch_page_button import switch_page
+
+continue_to_seat = st.button("Questionnaire")
+if continue_to_seat:
+    switch_page("seat")
