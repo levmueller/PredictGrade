@@ -19,3 +19,6 @@ st.markdown("""
 *We warmly welcome you to our website. Enter relevant factors and calculate your provisional grade for the semester.*
 *Good luck! 🍀*
 """)
+
+if st.button("Reserve a Seat"):
+    switch_page("questionnaire")
