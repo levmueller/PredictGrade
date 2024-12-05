@@ -20,9 +20,10 @@ st.markdown("""
 *Good luck! 🍀*
 """)
 
-#switching to next page
-from streamlit_extras.switch_page_button import switch_page
 
-continue_to_seat = st.button("Questionnaire")
-if continue_to_seat:
-    switch_page("seat")
+#Switching to the next page (login page) with an interactive button
+from streamlit_extras.switch_page_button import switch_page
+continue_to_login = st.button("Reserve a Seat")
+if continue_to_login:
+        switch_page("quesionnaire")
+
