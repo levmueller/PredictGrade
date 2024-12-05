@@ -7,7 +7,6 @@ import plotly.express as px
 
 st.set_page_config(layout="wide")
 
-
 # Session state to track responses
 if 'responses' not in st.session_state:
     st.session_state.responses = []
@@ -20,3 +19,7 @@ st.markdown("""
 *We warmly welcome you to our website. Enter relevant factors and calculate your provisional grade for the semester.*
 *Good luck! 🍀*
 """)
+
+# Navigate to Page 1 when the button is clicked
+if st.button("Go to Page 1"):
+    st.experimental_set_query_params(page="questionnaire")
