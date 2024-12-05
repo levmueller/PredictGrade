@@ -30,8 +30,6 @@ except ValueError:
     print("Error decoding JSON response. Please check the API response format.")
 
 
-
-
 st.subheader(f"Report of {today_date}")
 st.write("Below is a comparison of your inputs against the overall average (see Figure 1) and your predicted grade based on your inputs (see Figure 2).")
 st.write("")
@@ -244,7 +242,14 @@ with col3:
     if st.session_state.responses:
         try:
             # Retrieve responses from session state
-            age, gender_numeric, parental_degree_numeric, average_time, absences, tutoring_numeric, support_numeric, extracurricular, sports, music, volunteering, performance = st.session_state.responses
+            # Ensure the list has the expected number of elements before unpacking
+            if len(st.session_state.responses) == 12:
+                age, gender_numeric, parental_degree_numeric, average_time, absences, \
+                tutoring_numeric, support_numeric, extracurricular, sports, music, \
+                volunteering, performance = st.session_state.responses
+            else:
+                st.error("Error: Incorrect number of responses.")
+
 
             def swiss_to_us_gpa(swiss_grade):
                 return 2 + ((swiss_grade - 1) / 5) * 2
