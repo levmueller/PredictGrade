@@ -5,7 +5,11 @@ st.set_page_config(page_title="Questionnaire", layout="wide")
 
 st.title("Questionnaire")
 st.write("To calculate your grade for the upcoming semester, please complete the questionnaire.")
-st.write("The questionnaire is divided into the followin four sections: Personal Information, Academic Information, Activities, Parental Support & Education.")
+st.write("The questionnaire is divided into the following four sections: Personal Information, Academic Information, Activities, Parental Support & Education.")
+st.write(" - Personal Information")
+st.write(" - Academic Information")
+st.write(" - Activities")
+st.write(" - Parental Support & Education.")
 
 st.markdown("---")
 
