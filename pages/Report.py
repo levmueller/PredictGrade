@@ -402,7 +402,7 @@ if st.button("Submit"):
                 st.write(f"Fehler beim Senden der E-Mail: {e}")
         
         # Mail wird gesendet, indem die Funktion aufgerufen wird
-        send_email(email, {predicted_grade})
+        send_email(email, predicted_grade)
 
     else:
         st.write("Please enter an email address.")
