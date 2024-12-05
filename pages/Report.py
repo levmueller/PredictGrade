@@ -370,6 +370,9 @@ st.subheader("Save Report")
 # Display the email input field
 email = st.text_input("Please enter your email address to save your report.")
 
+import os
+
+st.write(os.getenv("MAIL_API"))
 # Display the button
 if st.button("Submit"):
     if email:
