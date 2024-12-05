@@ -8,17 +8,19 @@ from streamlit_extras.switch_page_button import switch_page
 
 st.set_page_config(page_title="Home", layout="wide")
 
-
 # Session state to track responses
 if 'responses' not in st.session_state:
     st.session_state.responses = []
 
 
 st.title("Welcome to GradeBoost! 🚀")
-st.header("Assess and boost your semester performance")
+st.header("Analyse and boost your semester performance")
 st.markdown("""
-*Dear Student,*
-*We warmly welcome you to our website. Enter relevant factors and calculate your provisional grade for the semester.*
+*Dear Students and Teachers,*
+*We warmly welcome you to our website. This website is designed for students aged 15 to 18 and their teachers living in Switzerland.*
+*GradeBoost helps you identify areas where performance may be below average compared to others and provides valuable insights*
+*and personalised tips to address these challenges.*
+Our mission is to guide you in continously improving your performance and achieving a successful semester.*
 *Good luck! 🍀*
 """)
 
