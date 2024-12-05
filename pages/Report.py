@@ -364,7 +364,7 @@ st.write(f"Based on the provided inputs, the model predicts a {max_prob:.1%} lik
 
 
 
-st.divider("--")
+st.markdown("---")
 
 st.subheader("Save Report")
 # Display the email input field
