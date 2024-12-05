@@ -9,7 +9,7 @@ st.write("The questionnaire is divided into the following four sections:")
 st.write(" - Personal Information")
 st.write(" - Academic Information")
 st.write(" - Activities")
-st.write(" - Parental Support & Education.")
+st.write(" - Parental Support & Education")
 
 st.write(" Filling out the questionnaire will take approximately 5 to 10 minutes.")
 
