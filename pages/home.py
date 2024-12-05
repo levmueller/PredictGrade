@@ -4,6 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from joblib import load
 import plotly.express as px
+from streamlit_extras.switch_page_button import switch_page
 
 st.set_page_config(layout="wide")
 
@@ -19,6 +20,8 @@ st.markdown("""
 *We warmly welcome you to our website. Enter relevant factors and calculate your provisional grade for the semester.*
 *Good luck! 🍀*
 """)
+
+
 
 if st.button("Reserve a Seat"):
     switch_page("questionnaire")
