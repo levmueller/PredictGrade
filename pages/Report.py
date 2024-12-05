@@ -8,64 +8,6 @@ from joblib import load
 
 st.set_page_config(page_title="Report", layout="wide")
 
-st.title("Analysis of Results")
-
-# Display the email input field
-email = st.text_input("Please enter your email address to save your report.")
-
-# Display the button
-if st.button("Submit"):
-    if email:
-
-        import os
-        from sendgrid import SendGridAPIClient
-        from sendgrid.helpers.mail import Mail
-        
-        # SendGrid API-Key
-        SENDGRID_API_KEY = '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'  # Auf SendGrid generierter API-Key
-        
-        # Funktion, um eine E-Mail zu senden
-        def send_email(user_email, note):
-            message = Mail(
-                from_email='gradeboostapp@gmail.com',  # Absenderadresse
-                to_emails=user_email,
-                subject='Deine prognostizierte Note',
-                html_content=f'''<strong>Deine prognostizierte Note beträgt: {note}</strong>
-                            <br><br>
-                            Danke, dass du GradeBoost🚀 nutzt!'''
-            )
-            try:
-                sg = SendGridAPIClient('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')
-                response = sg.send(message)
-                st.write(f"E-Mail erfolgreich gesendet! Status Code: {response.status_code}")
-            except Exception as e:
-                st.write(f"Fehler beim Senden der E-Mail: {e}")
-        
-        # Mail wird gesendet, indem die Funktion aufgerufen wird
-        send_email(email, 5.5)
-
-    else:
-        st.write("Please enter an email address.")
-
-st.markdown("---")
-
-import requests
-
-url = "http://worldtimeapi.org/api/timezone/Etc/UTC"
-
-try:
-    response = requests.get(url)
-    response.raise_for_status()  # Raise an HTTPError for bad responses
-    data = response.json()
-    today_date = data.get("datetime", "").split("T")[0]
-
-
-except requests.RequestException as e:
-    print(f"An error occurred while fetching the date: {e}")
-except ValueError:
-    print("Error decoding JSON response. Please check the API response format.")
-
-
 
 
 st.subheader(f"Report of {today_date}")
@@ -388,3 +330,59 @@ with col4:
 
 st.write(f"Based on the provided inputs, the model predicts a {max_prob:.1%} likelihood that your grade will be {predicted_grade}. This prediction is derived from an extensive analysis of historical performance data. Each feature contributes differently to predicting your grade. Focus on improving the most impactful ones for better results. Our tests show that the model achieves an accuracy of 91.02%, indicating a strong ability to predict outcomes reliably.")
 
+st.title("Analysis of Results")
+
+# Display the email input field
+email = st.text_input("Please enter your email address to save your report.")
+
+# Display the button
+if st.button("Submit"):
+    if email:
+
+        import os
+        from sendgrid import SendGridAPIClient
+        from sendgrid.helpers.mail import Mail
+        
+        # SendGrid API-Key
+        SENDGRID_API_KEY = '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'  # Auf SendGrid generierter API-Key
+        
+        # Funktion, um eine E-Mail zu senden
+        def send_email(user_email, note):
+            message = Mail(
+                from_email='gradeboostapp@gmail.com',  # Absenderadresse
+                to_emails=user_email,
+                subject='Deine prognostizierte Note',
+                html_content=f'''<strong>Deine prognostizierte Note beträgt: {note}</strong>
+                            <br><br>
+                            Danke, dass du GradeBoost🚀 nutzt!'''
+            )
+            try:
+                sg = SendGridAPIClient('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')
+                response = sg.send(message)
+                st.write(f"E-Mail erfolgreich gesendet! Status Code: {response.status_code}")
+            except Exception as e:
+                st.write(f"Fehler beim Senden der E-Mail: {e}")
+        
+        # Mail wird gesendet, indem die Funktion aufgerufen wird
+        send_email(email, 5.5)
+
+    else:
+        st.write("Please enter an email address.")
+
+st.markdown("---")
+
+import requests
+
+url = "http://worldtimeapi.org/api/timezone/Etc/UTC"
+
+try:
+    response = requests.get(url)
+    response.raise_for_status()  # Raise an HTTPError for bad responses
+    data = response.json()
+    today_date = data.get("datetime", "").split("T")[0]
+
+
+except requests.RequestException as e:
+    print(f"An error occurred while fetching the date: {e}")
+except ValueError:
+    print("Error decoding JSON response. Please check the API response format.")
