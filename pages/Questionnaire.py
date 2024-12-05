@@ -56,3 +56,7 @@ st.session_state.responses = [
     age, gender_numeric, parental_degree_numeric, average_time, absences, tutoring_numeric, 
     support_numeric, extracurricular, sports, music, volunteering, performance
 ]
+
+
+if st.button("Get results"):
+    switch_page("Report")
